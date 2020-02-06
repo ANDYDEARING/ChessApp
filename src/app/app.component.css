@@ -27,3 +27,14 @@
     display: table-cell;
     vertical-align:middle;
 }
+.border-blue{
+    width: 74px;
+    height: 74px;
+    border: solid blue 3px;
+}
+
+.border-red{
+    width: 74px;
+    height: 74px;
+    border: solid red 3px;
+}
