@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ChessApp';
+
+  onClick($event){
+    console.log($event.toElement);
+    $event.toElement.classList.add("border-blue");
+  }
 }
