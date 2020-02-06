@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PieceDefinition } from './PieceDefinition';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ChessApp';
+  definer = new PieceDefinition();
 
   onClick($event){
-    console.log($event.toElement);
-    $event.toElement.classList.add("border-blue");
+    let spaceElement: Element = $event.toElement;
+    console.log(spaceElement.innerHTML);
+    console.log(this.definer.getPieceName(spaceElement.innerHTML))
   }
 }
