@@ -24,7 +24,7 @@ export class Piece{
             throw new TypeError("Invalid Piece Name: " + name);
         }
 
-        let regex = new RegExp('^[a-hA-H][1-8]$');
+        let regex = new RegExp('^[1-8][a-hA-H]$');
         if(regex.test(location)){
             this.location = location.toUpperCase();
         } else {
@@ -39,5 +39,8 @@ export class Piece{
         } else if (this.owner == "WHITE") {
             return this.whiteSymbols[this.pieceNames.indexOf(this.name)];
         }
+    }
+    public display(){
+        document.getElementById(this.location).innerText = this.symbol;
     }
 }
