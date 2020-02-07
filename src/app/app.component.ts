@@ -11,8 +11,10 @@ export class AppComponent {
   definer = new PieceDefinition();
 
   onClick($event){
+    //console.log($event);
+    //console.log(spaceElement.innerHTML);
+    //console.log(this.definer.getPieceName(spaceElement.innerHTML))
+    //spaceElement.classList.add("border-red");
     let spaceElement: Element = $event.toElement;
-    console.log(spaceElement.innerHTML);
-    console.log(this.definer.getPieceName(spaceElement.innerHTML))
   }
 }
