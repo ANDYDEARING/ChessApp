@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { PieceDefinition } from './PieceDefinition';
 import { Piece } from './Piece';
+import { CharTools } from './CharTools';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +9,9 @@ import { Piece } from './Piece';
 })
 export class AppComponent {
   title = 'ChessApp';
-  // definer = new PieceDefinition();
   whitePieces:Piece[] = new Array();
   blackPieces:Piece[] = new Array();
+  selectedSpace:Element;
 
   ngOnInit(){
     this.initializePieces();
@@ -21,9 +21,14 @@ export class AppComponent {
   onClick($event){
     console.log($event);
     //console.log(spaceElement.innerHTML);
-    //console.log(this.definer.getPieceName(spaceElement.innerHTML))
     //spaceElement.classList.add("border-red");
-    let spaceElement: Element = $event.toElement;
+    if(this.selectedSpace){
+      this.selectedSpace.classList.remove("border-blue");
+    }
+    if($event.toElement.innerHTML){
+      this.selectedSpace = $event.toElement;
+      this.selectedSpace.classList.add("border-blue");
+    }
   }
 
   initializePieces(){
@@ -31,7 +36,7 @@ export class AppComponent {
     for(let i=0; i<8; i++){
       this.whitePieces.push(new Piece("white","pawn","2" + currChar));
       this.blackPieces.push(new Piece("black","pawn","7" + currChar));
-      currChar = nextChar(currChar);
+      currChar = CharTools.nextChar(currChar);
     }
     this.whitePieces.push(new Piece("white","rook","1A"));
     this.whitePieces.push(new Piece("white","rook","1H"));
@@ -59,7 +64,4 @@ export class AppComponent {
       this.blackPieces[i].display();
     }
   }
-}
-function nextChar(c) {
-  return String.fromCharCode(c.charCodeAt(0) + 1);
 }
