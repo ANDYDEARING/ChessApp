@@ -5,8 +5,8 @@ export class Piece{
     public owner : string;
     public location : string;
 
-    private pieceNames: string[] = ["KING","QUEEN","BISHOP","KNIGHT","ROOK","PAWN"];
     private ownerNames: string[] = ["WHITE","BLACK"];
+    private pieceNames: string[] = ["KING","QUEEN","BISHOP","KNIGHT","ROOK","PAWN"];
     private whiteSymbols: string[] = ["♔","♕","♗","♘","♖","♙"];
     private blackSymbols: string[] = ["♚","♛","♝","♞","♜","♟"];
     
