@@ -43,4 +43,39 @@ export class Piece{
     public display(){
         document.getElementById(this.location).innerText = this.symbol;
     }
+    public showMoves(){
+        let potentialMoveSpaces : string[] = [];
+        switch(this.name){
+            case "PAWN":
+            potentialMoveSpaces = this.getPawnMoves();
+            case "ROOK":
+            potentialMoveSpaces = this.getRookMoves();
+            case "KNIGHT":
+            potentialMoveSpaces = this.getKnightMoves();
+            case "BISHOP":
+            potentialMoveSpaces = this.getBishopMoves();
+            case "QUEEN":
+            potentialMoveSpaces = this.getQueenMoves();
+            case "KING":
+            potentialMoveSpaces = this.getKingMoves();
+        }
+    }
+    private getPawnMoves(){
+        return null;
+    }
+    private getRookMoves(){
+        return null;
+    }
+    private getKnightMoves(){
+        return null;
+    }
+    private getBishopMoves(){
+        return null;
+    }
+    private getQueenMoves(){
+        return null;
+    }
+    private getKingMoves(){
+        return null;
+    }
 }

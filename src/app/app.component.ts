@@ -19,9 +19,7 @@ export class AppComponent {
   }
 
   onClick($event){
-    console.log($event);
-    //console.log(spaceElement.innerHTML);
-    //spaceElement.classList.add("border-red");
+    // console.log($event);
     if(this.selectedSpace){
       this.selectedSpace.classList.remove("border-blue");
     }
