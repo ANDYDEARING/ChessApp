@@ -42,7 +42,7 @@ export class Piece{
     public display(){
         document.getElementById(this.location).innerText = this.symbol;
     }
-    public showMoves(){
+    public getMoves():string[]{
         let potentialMoveSpaces : string[] = [];
         switch(this.name){
             case "PAWN":
@@ -58,25 +58,48 @@ export class Piece{
             case "KING":
             potentialMoveSpaces = this.getKingMoves();
         }
+        return potentialMoveSpaces;
     }
-    private getPawnMoves(){
-        console.log("row: " + this.location[0]);
-        console.log("column: " + this.location[1]);
-        return null;
-    }
-    private getRookMoves(){
-        return null;
-    }
-    private getKnightMoves(){
-        return null;
-    }
-    private getBishopMoves(){
-        return null;
-    }
-    private getQueenMoves(){
-        return null;
-    }
-    private getKingMoves(){
-        return null;
-    }
+    
+    getPawnMoves():string[]{
+        console.log("In pawn moves");
+        let row:number = parseInt(this.location[0]);
+        let column:string = this.location[1];
+        var potentialMoveSpaces : string[] = [];
+        let direction = 0;
+        let maxMove = 1;
+    
+        if(this.owner=="WHITE"){
+            direction = 1;
+            if(row==2){
+                maxMove = 2;
+            }
+        } else if (this.owner=="BLACK"){
+            direction = -1;
+            if(row==7){
+                maxMove = 2;
+            }
+        }
+    
+        for(let i=1;i<=maxMove;i++){
+            potentialMoveSpaces.push( (row+(direction*i)).toString() + column);
+        }
+        console.log("Before leaving pawn moves: ", potentialMoveSpaces);
+        return potentialMoveSpaces;
+      }
+      private getRookMoves(){
+          return null;
+      }
+      private getKnightMoves(){
+          return null;
+      }
+      private getBishopMoves(){
+          return null;
+      }
+      private getQueenMoves(){
+          return null;
+      }
+      private getKingMoves(){
+          return null;
+      }
 }

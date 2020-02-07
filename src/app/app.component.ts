@@ -12,6 +12,7 @@ export class AppComponent {
   whitePieces:Piece[] = new Array();
   blackPieces:Piece[] = new Array();
   selectedSpace:Element;
+  highlightedMoves:string[];
 
   ngOnInit(){
     this.initializePieces();
@@ -26,7 +27,8 @@ export class AppComponent {
     if($event.toElement.innerHTML){
       this.selectedSpace = $event.toElement;
       this.selectedSpace.classList.add("border-blue");
-      // console.log(this.getPiece(this.selectedSpace));
+      console.log(this.getPiece(this.selectedSpace).getMoves());
+      // this.highlightMoves(this.getPiece(this.selectedSpace).getMoves());
     }
   }
 
@@ -77,5 +79,17 @@ export class AppComponent {
       }
     }
     return null;
+  }
+
+  highlightMoves(moveList:string[]){
+    if(this.highlightedMoves){
+      for(let i=0;i<moveList.length;i++){
+        document.getElementById(moveList[i]).classList.remove("border-green");
+      }
+    }
+    for(let i=0;i<moveList.length;i++){
+      document.getElementById(moveList[i]).classList.add("border-green");
+    }
+    this.highlightedMoves = moveList;
   }
 }
