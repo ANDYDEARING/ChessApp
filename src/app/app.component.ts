@@ -26,6 +26,7 @@ export class AppComponent {
     if($event.toElement.innerHTML){
       this.selectedSpace = $event.toElement;
       this.selectedSpace.classList.add("border-blue");
+      // console.log(this.getPiece(this.selectedSpace));
     }
   }
 
@@ -54,6 +55,7 @@ export class AppComponent {
     this.blackPieces.push(new Piece("black","queen","8D"));
     this.blackPieces.push(new Piece("black","king","8E"));
   }
+
   displayPieces(){
     for(let i=0;i<this.whitePieces.length;i++){
       this.whitePieces[i].display();
@@ -61,5 +63,19 @@ export class AppComponent {
     for(let i=0;i<this.blackPieces.length;i++){
       this.blackPieces[i].display();
     }
+  }
+
+  getPiece(space:Element){
+    for(let i=0;i<this.whitePieces.length;i++){
+      if(this.whitePieces[i].location==space.id){
+        return this.whitePieces[i];
+      }
+    }
+    for(let i=0;i<this.blackPieces.length;i++){
+      if(this.blackPieces[i].location==space.id){
+        return this.blackPieces[i];
+      }
+    }
+    return null;
   }
 }

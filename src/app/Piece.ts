@@ -24,8 +24,7 @@ export class Piece{
             throw new TypeError("Invalid Piece Name: " + name);
         }
 
-        let regex = new RegExp('^[1-8][a-hA-H]$');
-        if(regex.test(location)){
+        if(location.match('^[1-8][a-hA-H]$')){
             this.location = location.toUpperCase();
         } else {
             throw new TypeError("Invalid Location: " + location);
@@ -61,6 +60,8 @@ export class Piece{
         }
     }
     private getPawnMoves(){
+        console.log("row: " + this.location[0]);
+        console.log("column: " + this.location[1]);
         return null;
     }
     private getRookMoves(){
