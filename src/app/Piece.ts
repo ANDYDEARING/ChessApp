@@ -43,26 +43,31 @@ export class Piece{
         document.getElementById(this.location).innerText = this.symbol;
     }
     public getMoves():string[]{
-        let potentialMoveSpaces : string[] = [];
+        var potentialMoveSpaces : string[] = [];
         switch(this.name){
             case "PAWN":
             potentialMoveSpaces = this.getPawnMoves();
+            break;
             case "ROOK":
             potentialMoveSpaces = this.getRookMoves();
+            break;
             case "KNIGHT":
             potentialMoveSpaces = this.getKnightMoves();
+            break;
             case "BISHOP":
             potentialMoveSpaces = this.getBishopMoves();
+            break;
             case "QUEEN":
             potentialMoveSpaces = this.getQueenMoves();
+            break;
             case "KING":
             potentialMoveSpaces = this.getKingMoves();
+            break;
         }
         return potentialMoveSpaces;
     }
     
     getPawnMoves():string[]{
-        console.log("In pawn moves");
         let row:number = parseInt(this.location[0]);
         let column:string = this.location[1];
         var potentialMoveSpaces : string[] = [];
@@ -84,7 +89,6 @@ export class Piece{
         for(let i=1;i<=maxMove;i++){
             potentialMoveSpaces.push( (row+(direction*i)).toString() + column);
         }
-        console.log("Before leaving pawn moves: ", potentialMoveSpaces);
         return potentialMoveSpaces;
       }
       private getRookMoves(){

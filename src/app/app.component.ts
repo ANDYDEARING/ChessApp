@@ -27,8 +27,7 @@ export class AppComponent {
     if($event.toElement.innerHTML){
       this.selectedSpace = $event.toElement;
       this.selectedSpace.classList.add("border-blue");
-      console.log(this.getPiece(this.selectedSpace).getMoves());
-      // this.highlightMoves(this.getPiece(this.selectedSpace).getMoves());
+      this.highlightMoves(this.getPiece(this.selectedSpace).getMoves());
     }
   }
 
@@ -83,8 +82,8 @@ export class AppComponent {
 
   highlightMoves(moveList:string[]){
     if(this.highlightedMoves){
-      for(let i=0;i<moveList.length;i++){
-        document.getElementById(moveList[i]).classList.remove("border-green");
+      for(let i=0;i<this.highlightedMoves.length;i++){
+        document.getElementById(this.highlightedMoves[i]).classList.remove("border-green");
       }
     }
     for(let i=0;i<moveList.length;i++){
