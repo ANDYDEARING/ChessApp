@@ -13,6 +13,8 @@ export class AppComponent {
   blackPieces:Piece[] = new Array();
   selectedSpace:Element;
   highlightedMoves:string[];
+  highlightedCaptures:string[];
+  isWhiteTurn:boolean = true;
 
   ngOnInit(){
     this.initializePieces();
@@ -81,10 +83,18 @@ export class AppComponent {
   }
 
   highlightMoves(moveList:string[]){
+    if(this.getPiece(this.selectedSpace).name == "PAWN"){
+      //moveList = this.checkPawnMoves(moveList);
+    } else {
+      //moveList = this.checkMoves(moveList);
+    }
     if(this.highlightedMoves){
       for(let i=0;i<this.highlightedMoves.length;i++){
         document.getElementById(this.highlightedMoves[i]).classList.remove("border-green");
       }
+    }
+    if(this.highlightedCaptures){
+
     }
     for(let i=0;i<moveList.length;i++){
       document.getElementById(moveList[i]).classList.add("border-green");
