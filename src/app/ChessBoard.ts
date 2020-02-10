@@ -41,7 +41,12 @@ export class ChessBoard {
             if(capturedPiece){
                 capturedPiece.location = null;
             }
+            let coordString = piece.location[0].toString()+piece.location[1].toString();
+                document.getElementById(coordString).innerText = "";
+            this.board2DArray[piece.location[0]][piece.location[1]] = null;
+            this.board2DArray[coord[0]][coord[1]] = piece;
             piece.location = coord;
+            this.display();
         } else {
             throw new TypeError("Invalid location format: " + coord);
         }

@@ -20,13 +20,25 @@ export class AppComponent {
   }
 
   onClick($event){
-    if(this.selectedSpace){
+    let clickedSpace = $event.toElement;
+    console.log("Board piece List: ", this.board.pieceList);
+
+    if(clickedSpace.classList.contains("border-green")){
+      let coord = [parseInt(clickedSpace.id[0]),parseInt(clickedSpace.id[1])];
+      console.log("Piece before move gets called: ", this.getPiece(this.selectedSpace));
+      this.board.movePiece(this.getPiece(this.selectedSpace),coord);
+      this.clearGreenBorder();
       this.selectedSpace.classList.remove("border-blue");
     }
-    if($event.toElement.innerHTML){
+
+    else if($event.toElement.innerHTML){
+      if(this.selectedSpace){
+        this.selectedSpace.classList.remove("border-blue");
+      }
       this.selectedSpace = $event.toElement;
       this.selectedSpace.classList.add("border-blue");
-      this.highlightMoves(this.convertToElements(this.getPiece(this.selectedSpace).getMoves()));
+      this.highlightMoves(this.convertToElements(
+        this.getPiece(this.selectedSpace).getMoves()));
     }
   }
   convertToElements(coordList:number[][]):Element[]{
@@ -41,6 +53,7 @@ export class AppComponent {
   }
 
   initializePieces(){
+    //this.board.addPiece(new Piece("white","pawn",[0,6], this.board));
     for(let i=0; i<8; i++){
       this.board.addPiece(new Piece("white","pawn",[i,6], this.board));
       this.board.addPiece(new Piece("black","pawn",[i,1], this.board));
@@ -72,13 +85,16 @@ export class AppComponent {
 
   highlightMoves(moveList:Element[]){
     if(this.highlightedMoves){
-      for(let i=0;i<this.highlightedMoves.length;i++){
-        this.highlightedMoves[i].classList.remove("border-green");
-      }
+      this.clearGreenBorder();
     }
     for(let i=0;i<moveList.length;i++){
       moveList[i].classList.add("border-green");
     }
     this.highlightedMoves = moveList;
+  }
+  clearGreenBorder(){
+    for(let i=0;i<this.highlightedMoves.length;i++){
+      this.highlightedMoves[i].classList.remove("border-green");
+    }
   }
 }
