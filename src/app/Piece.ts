@@ -44,12 +44,7 @@ export class Piece{
             return this.whiteSymbols[this.pieceNames.indexOf(this.name)];
         }
     }
-    public display(){
-        if (this.location){
-            let coordString = this.location[0].toString()+this.location[1].toString();
-            document.getElementById(coordString).innerText = this.symbol;
-        }
-    }
+
     public getMoves():number[][]{
         var potentialMoveSpaces : number[][] = [];
         switch(this.name){
@@ -76,29 +71,26 @@ export class Piece{
     }
     
     getPawnMoves(): number[][]{
-        // let row:number = parseInt(this.location[0]);
-        // let column:string = this.location[1];
-        // var potentialMoveSpaces : string[] = [];
-        // let direction = 0;
-        // let maxMove = 1;
+        var potentialMoveSpaces : number[][] = [];
+        let direction = 0;
+        let maxMove = 1;
     
-        // if(this.owner=="WHITE"){
-        //     direction = 1;
-        //     if(row==2){
-        //         maxMove = 2;
-        //     }
-        // } else if (this.owner=="BLACK"){
-        //     direction = -1;
-        //     if(row==7){
-        //         maxMove = 2;
-        //     }
-        // }
+        if(this.owner=="WHITE"){
+            direction = -1;
+            if(this.location[1]==6){
+                maxMove = 2;
+            }
+        } else if (this.owner=="BLACK"){
+            direction = 1;
+            if(this.location[1]==1){
+                maxMove = 2;
+            }
+        }
     
-        // for(let i=1;i<=maxMove;i++){
-        //     potentialMoveSpaces.push( (row+(direction*i)).toString() + column);
-        // }
-        // return potentialMoveSpaces;
-        return null;
+        for(let i=1;i<=maxMove;i++){
+             potentialMoveSpaces.push( [this.location[0], this.location[1]+(direction*i)] );
+        }
+        return potentialMoveSpaces;
       }
       private getRookMoves(){
           return null;
