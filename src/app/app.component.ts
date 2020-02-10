@@ -21,17 +21,16 @@ export class AppComponent {
 
   onClick($event){
     let clickedSpace = $event.toElement;
-    console.log("Board piece List: ", this.board.pieceList);
+    let clickedCoord = [parseInt(clickedSpace.id[0]),parseInt(clickedSpace.id[1])];
 
     if(clickedSpace.classList.contains("border-green")){
       let coord = [parseInt(clickedSpace.id[0]),parseInt(clickedSpace.id[1])];
-      console.log("Piece before move gets called: ", this.getPiece(this.selectedSpace));
       this.board.movePiece(this.getPiece(this.selectedSpace),coord);
       this.clearGreenBorder();
       this.selectedSpace.classList.remove("border-blue");
     }
 
-    else if($event.toElement.innerHTML){
+    else if(this.board.getPieceAtLocation(clickedCoord)){
       if(this.selectedSpace){
         this.selectedSpace.classList.remove("border-blue");
       }
@@ -39,6 +38,10 @@ export class AppComponent {
       this.selectedSpace.classList.add("border-blue");
       this.highlightMoves(this.convertToElements(
         this.getPiece(this.selectedSpace).getMoves()));
+    }
+    else {
+      this.clearGreenBorder();
+      this.selectedSpace.classList.remove("border-blue");
     }
   }
   convertToElements(coordList:number[][]):Element[]{

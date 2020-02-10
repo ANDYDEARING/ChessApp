@@ -37,7 +37,7 @@ export class Piece{
         
         this.symbol = this.getSymbol();
     }
-    private getSymbol(){
+    getSymbol(){
         if(this.owner == "BLACK"){
             return this.blackSymbols[this.pieceNames.indexOf(this.name)];
         } else if (this.owner == "WHITE") {
@@ -88,8 +88,29 @@ export class Piece{
         }
     
         for(let i=1;i<=maxMove;i++){
-             potentialMoveSpaces.push( [this.location[0], this.location[1]+(direction*i)] );
+            let coord = [this.location[0], this.location[1]+(direction*i)];
+            if(!this.board.getPieceAtLocation(coord) 
+            && this.board.validateCoord(coord)){
+                potentialMoveSpaces.push(coord);
+            }
         }
+
+        let aheadLeft = [this.location[0] - 1, this.location[1] + direction];
+        if(this.board.validateCoord(aheadLeft) && 
+          this.board.getPieceAtLocation(aheadLeft)){
+            if(this.board.getPieceAtLocation(aheadLeft).owner != this.owner){
+                potentialMoveSpaces.push(aheadLeft);
+            }
+        }
+
+        let aheadRight = [this.location[0] + 1, this.location[1] + direction];
+        if(this.board.validateCoord(aheadRight) && 
+          this.board.getPieceAtLocation(aheadRight)){
+            if(this.board.getPieceAtLocation(aheadRight).owner != this.owner){
+                potentialMoveSpaces.push(aheadRight);
+            }
+        }
+
         return potentialMoveSpaces;
       }
       private getRookMoves(){

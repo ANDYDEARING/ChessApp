@@ -46,6 +46,11 @@ export class ChessBoard {
             this.board2DArray[piece.location[0]][piece.location[1]] = null;
             this.board2DArray[coord[0]][coord[1]] = piece;
             piece.location = coord;
+            if(piece.name == "PAWN" && 
+            ((coord[1]==0 && piece.owner == "WHITE") || (coord[1]==7 && piece.owner == "BLACK") )){
+                piece.name = "QUEEN";
+                piece.symbol = piece.getSymbol();
+            }
             this.display();
         } else {
             throw new TypeError("Invalid location format: " + coord);
