@@ -32,4 +32,15 @@ export class ChessBoard {
         return(coord.length==2 && 0<=coord[0] 
             && coord[0]<=7 && 0<=coord[1] && coord[1]<=7);
     }
+    movePiece(piece:Piece, coord:number[]){
+        if(this.validateCoord(coord)){
+            let capturedPiece = this.getPieceAtLocation(coord);
+            if(capturedPiece){
+                capturedPiece.location = null;
+            }
+            piece.location = coord;
+        } else {
+            throw new TypeError("Invalid location format: " + coord);
+        }
+    }
 }

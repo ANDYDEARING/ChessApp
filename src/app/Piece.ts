@@ -45,8 +45,10 @@ export class Piece{
         }
     }
     public display(){
-        let coordString = this.location[0].toString()+this.location[1].toString();
-        document.getElementById(coordString).innerText = this.symbol;
+        if (this.location){
+            let coordString = this.location[0].toString()+this.location[1].toString();
+            document.getElementById(coordString).innerText = this.symbol;
+        }
     }
     public getMoves():number[][]{
         var potentialMoveSpaces : number[][] = [];
