@@ -10,8 +10,8 @@ export class ChessBoard {
         }
     }
     addPiece(piece:Piece){
-        let xCoord = piece.location[1].charCodeAt(0) - ("A").charCodeAt(0);
-        let yCoord = parseInt(piece.location[0])-1;
+        let xCoord = piece.location[0];
+        let yCoord = piece.location[1];
         if(!this.board2DArray[xCoord][yCoord]){
             this.board2DArray[xCoord][yCoord] = piece;
         } else {
@@ -19,13 +19,15 @@ export class ChessBoard {
         }
         
     }
-    getPieceAtLocation(chessCoord:string):Piece{
-        if(chessCoord.match('^[1-8][A-H]$')){
-            let xCoord = chessCoord[1].charCodeAt(0) - ("A").charCodeAt(0);
-            let yCoord = parseInt(chessCoord[0])-1;
-            return this.board2DArray[xCoord][yCoord];
+    getPieceAtLocation(coord:number[]):Piece{
+        if(this.validateCoord(coord)){
+            return this.board2DArray[coord[0]][coord[1]];
         } else {
-            throw new TypeError("Invalid location format: " + chessCoord);
+            throw new TypeError("Invalid location format: " + coord);
         }
+    }
+    validateCoord(coord:number[]){
+        return(coord.length==2 && 0<=coord[0] 
+            && coord[0]<=7 && 0<=coord[1] && coord[1]<=7);
     }
 }
