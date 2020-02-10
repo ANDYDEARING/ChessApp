@@ -1,16 +1,21 @@
+import { ChessBoard } from './ChessBoard';
+
 export class Piece{
 
     public symbol : string;
     public name : string;
     public owner : string;
-    public location : string;
+    public location : number[];
+    public board : ChessBoard;
 
     private ownerNames: string[] = ["WHITE","BLACK"];
     private pieceNames: string[] = ["KING","QUEEN","BISHOP","KNIGHT","ROOK","PAWN"];
     private whiteSymbols: string[] = ["♔","♕","♗","♘","♖","♙"];
     private blackSymbols: string[] = ["♚","♛","♝","♞","♜","♟"];
     
-    constructor(owner:string, name:string, location:string){
+    constructor(owner:string, name:string, location:number[], board:ChessBoard){
+
+        this.board = board;
 
         if(this.ownerNames.includes(owner.toUpperCase())){
             this.owner = owner.toUpperCase();
@@ -24,8 +29,8 @@ export class Piece{
             throw new TypeError("Invalid Piece Name: " + name);
         }
 
-        if(location.match('^[1-8][a-hA-H]$')){
-            this.location = location.toUpperCase();
+        if(board.validateCoord(location)){
+            this.location = location;
         } else {
             throw new TypeError("Invalid Location: " + location);
         }
@@ -39,11 +44,9 @@ export class Piece{
             return this.whiteSymbols[this.pieceNames.indexOf(this.name)];
         }
     }
-    public display(){
-        document.getElementById(this.location).innerText = this.symbol;
-    }
-    public getMoves():string[]{
-        var potentialMoveSpaces : string[] = [];
+
+    public getMoves():number[][]{
+        var potentialMoveSpaces : number[][] = [];
         switch(this.name){
             case "PAWN":
             potentialMoveSpaces = this.getPawnMoves();
@@ -67,27 +70,25 @@ export class Piece{
         return potentialMoveSpaces;
     }
     
-    getPawnMoves():string[]{
-        let row:number = parseInt(this.location[0]);
-        let column:string = this.location[1];
-        var potentialMoveSpaces : string[] = [];
+    getPawnMoves(): number[][]{
+        var potentialMoveSpaces : number[][] = [];
         let direction = 0;
         let maxMove = 1;
     
         if(this.owner=="WHITE"){
-            direction = 1;
-            if(row==2){
+            direction = -1;
+            if(this.location[1]==6){
                 maxMove = 2;
             }
         } else if (this.owner=="BLACK"){
-            direction = -1;
-            if(row==7){
+            direction = 1;
+            if(this.location[1]==1){
                 maxMove = 2;
             }
         }
     
         for(let i=1;i<=maxMove;i++){
-            potentialMoveSpaces.push( (row+(direction*i)).toString() + column);
+             potentialMoveSpaces.push( [this.location[0], this.location[1]+(direction*i)] );
         }
         return potentialMoveSpaces;
       }
