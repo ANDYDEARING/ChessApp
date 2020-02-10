@@ -1,9 +1,11 @@
 import { Piece } from './Piece';
 
 export class ChessBoard {
-    private board2DArray: Piece[][] = new Array();
+    private board2DArray: Piece[][];
     constructor(){
+        this.board2DArray = [];
         for(let i=0;i<8;i++){
+            this.board2DArray[i]=[];
             for(let j=0;j<8;j++){
                 this.board2DArray[i][j] = null;
             }

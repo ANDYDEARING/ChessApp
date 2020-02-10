@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Piece } from './Piece';
 import { CharTools } from './CharTools';
+import { ChessBoard } from './ChessBoard';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,7 @@ import { CharTools } from './CharTools';
 })
 export class AppComponent {
   title = 'ChessApp';
+  board:ChessBoard = new ChessBoard();
   whitePieces:Piece[] = new Array();
   blackPieces:Piece[] = new Array();
   selectedSpace:Element;
@@ -29,34 +31,32 @@ export class AppComponent {
     if($event.toElement.innerHTML){
       this.selectedSpace = $event.toElement;
       this.selectedSpace.classList.add("border-blue");
-      this.highlightMoves(this.getPiece(this.selectedSpace).getMoves());
+      //this.highlightMoves(this.getPiece(this.selectedSpace).getMoves());
     }
   }
 
   initializePieces(){
-    let currChar = 'A';
     for(let i=0; i<8; i++){
-      this.whitePieces.push(new Piece("white","pawn","2" + currChar));
-      this.blackPieces.push(new Piece("black","pawn","7" + currChar));
-      currChar = CharTools.nextChar(currChar);
+      this.whitePieces.push(new Piece("white","pawn",[i,6], this.board));
+      this.blackPieces.push(new Piece("black","pawn",[i,1], this.board));
     }
-    this.whitePieces.push(new Piece("white","rook","1A"));
-    this.whitePieces.push(new Piece("white","rook","1H"));
-    this.whitePieces.push(new Piece("white","knight","1B"));
-    this.whitePieces.push(new Piece("white","knight","1G"));
-    this.whitePieces.push(new Piece("white","bishop","1C"));
-    this.whitePieces.push(new Piece("white","bishop","1F"));
-    this.whitePieces.push(new Piece("white","queen","1D"));
-    this.whitePieces.push(new Piece("white","king","1E"));
+    this.whitePieces.push(new Piece("white","rook",[0,7], this.board));
+    this.whitePieces.push(new Piece("white","rook",[7,7], this.board));
+    this.whitePieces.push(new Piece("white","knight",[1,7], this.board));
+    this.whitePieces.push(new Piece("white","knight",[6,7], this.board));
+    this.whitePieces.push(new Piece("white","bishop",[2,7], this.board));
+    this.whitePieces.push(new Piece("white","bishop",[5,7], this.board));
+    this.whitePieces.push(new Piece("white","queen",[3,7], this.board));
+    this.whitePieces.push(new Piece("white","king",[4,7], this.board));
 
-    this.blackPieces.push(new Piece("black","rook","8A"));
-    this.blackPieces.push(new Piece("black","rook","8H"));
-    this.blackPieces.push(new Piece("black","knight","8B"));
-    this.blackPieces.push(new Piece("black","knight","8G"));
-    this.blackPieces.push(new Piece("black","bishop","8C"));
-    this.blackPieces.push(new Piece("black","bishop","8F"));
-    this.blackPieces.push(new Piece("black","queen","8D"));
-    this.blackPieces.push(new Piece("black","king","8E"));
+    this.blackPieces.push(new Piece("black","rook",[0,0], this.board));
+    this.blackPieces.push(new Piece("black","rook",[7,0], this.board));
+    this.blackPieces.push(new Piece("black","knight",[1,0], this.board));
+    this.blackPieces.push(new Piece("black","knight",[6,0], this.board));
+    this.blackPieces.push(new Piece("black","bishop",[2,0], this.board));
+    this.blackPieces.push(new Piece("black","bishop",[5,0], this.board));
+    this.blackPieces.push(new Piece("black","queen",[3,0], this.board));
+    this.blackPieces.push(new Piece("black","king",[4,0], this.board));
   }
 
   displayPieces(){
@@ -68,18 +68,10 @@ export class AppComponent {
     }
   }
 
-  getPiece(space:Element){
-    for(let i=0;i<this.whitePieces.length;i++){
-      if(this.whitePieces[i].location==space.id){
-        return this.whitePieces[i];
-      }
-    }
-    for(let i=0;i<this.blackPieces.length;i++){
-      if(this.blackPieces[i].location==space.id){
-        return this.blackPieces[i];
-      }
-    }
-    return null;
+  getPiece(space:Element):Piece{
+    let xCoord = parseInt(space.id[0]);
+    let yCoord = parseInt(space.id[1]);
+    return this.board.getPieceAtLocation([xCoord,yCoord]);
   }
 
   highlightMoves(moveList:string[]){
