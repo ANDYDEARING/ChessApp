@@ -111,6 +111,16 @@ export class Piece{
             }
         }
 
+        if(this.board.enPassantCoord){
+            if(aheadLeft[0] == this.board.enPassantCoord[0] 
+                && aheadLeft[1] == this.board.enPassantCoord[1]){
+                potentialMoveSpaces.push(aheadLeft);
+            } else if(aheadRight[0] == this.board.enPassantCoord[0] 
+                && aheadRight[1] == this.board.enPassantCoord[1]){
+                potentialMoveSpaces.push(aheadRight);
+            }
+        }
+
         return potentialMoveSpaces;
       }
       private getRookMoves(){
