@@ -251,9 +251,25 @@ export class Piece{
         return potentialMoveSpaces;
       }
       private getQueenMoves(){
-          return null;
+        var potentialMoveSpaces : number[][] = this.getBishopMoves();
+        let rookMoves : number[][] = this.getRookMoves();
+        for(let i=0;i<rookMoves.length;i++){
+            potentialMoveSpaces.push(rookMoves[i]);
+        }
+        return potentialMoveSpaces;
       }
       private getKingMoves(){
-          return null;
+          let potentialMoveSpaces : number[][] = [];
+          for(let x=-1;x<=1;x++){
+            for(let y=-1;y<=1;y++){
+                let coord = [this.location[0]+x, this.location[1]+y];
+                if( (this.board.validateCoord(coord)) && (x!=0 || y!=0) 
+                && (!this.board.getPieceAtLocation(coord)
+                || this.board.getPieceAtLocation(coord).owner != this.owner) ){
+                    potentialMoveSpaces.push(coord);
+                }
+            }
+          }
+          return potentialMoveSpaces;
       }
 }
