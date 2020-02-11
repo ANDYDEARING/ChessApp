@@ -124,7 +124,66 @@ export class Piece{
         return potentialMoveSpaces;
       }
       private getRookMoves(){
-          return null;
+        var potentialMoveSpaces : number[][] = [];
+        let maxMove = 7;
+    
+        //north
+        for(let i=1;i<=maxMove;i++){
+            let coord = [this.location[0], this.location[1]-i];
+            if(this.board.validateCoord(coord)
+            &&!this.board.getPieceAtLocation(coord)){
+                potentialMoveSpaces.push(coord);
+            } else if(this.board.validateCoord(coord) 
+            && this.board.getPieceAtLocation(coord).owner != this.owner){
+                potentialMoveSpaces.push(coord);
+                break;
+            } else {
+                break;
+            }
+        }
+        //south
+        for(let i=1;i<=maxMove;i++){
+            let coord = [this.location[0], this.location[1]+i];
+            if(this.board.validateCoord(coord)
+            &&!this.board.getPieceAtLocation(coord)){
+                potentialMoveSpaces.push(coord);
+            } else if(this.board.validateCoord(coord) 
+            && this.board.getPieceAtLocation(coord).owner != this.owner){
+                potentialMoveSpaces.push(coord);
+                break;
+            } else {
+                break;
+            }
+        }
+        //east
+        for(let i=1;i<=maxMove;i++){
+            let coord = [this.location[0]+1, this.location[1]];
+            if(this.board.validateCoord(coord)
+            &&!this.board.getPieceAtLocation(coord)){
+                potentialMoveSpaces.push(coord);
+            } else if(this.board.validateCoord(coord) 
+            && this.board.getPieceAtLocation(coord).owner != this.owner){
+                potentialMoveSpaces.push(coord);
+                break;
+            } else {
+                break;
+            }
+        }
+        //west
+        for(let i=1;i<=maxMove;i++){
+            let coord = [this.location[0]-i, this.location[1]];
+            if(this.board.validateCoord(coord)
+            &&!this.board.getPieceAtLocation(coord)){
+                potentialMoveSpaces.push(coord);
+            } else if(this.board.validateCoord(coord) 
+            && this.board.getPieceAtLocation(coord).owner != this.owner){
+                potentialMoveSpaces.push(coord);
+                break;
+            } else {
+                break;
+            }
+        }
+        return potentialMoveSpaces;
       }
       private getKnightMoves(){
           return null;
