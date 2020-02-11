@@ -76,9 +76,21 @@ export class ChessBoard {
             if(piece.name == "ROOK" || piece.name == "KING"){
                 this.ineligibleToCastle.push(piece);
             }
+            let castle:boolean = false;
+            if(piece.name == "KING" && Math.abs(piece.location[0]-coord[0])==2){
+                castle = true;
+            }
 
             piece.location = coord;
 
+            if(castle){
+                if(coord[0]==6){
+                    this.movePiece(this.getPieceAtLocation( [7,coord[1]] ), [5,coord[1]] );
+                } else {
+                    this.movePiece(this.getPieceAtLocation( [0,coord[1]] ), [3,coord[1]] );
+                }
+            }
+            
             if(piece.name == "PAWN" && 
             ((coord[1]==0 && piece.owner == "WHITE") || (coord[1]==7 && piece.owner == "BLACK") )){
                 piece.name = "QUEEN";

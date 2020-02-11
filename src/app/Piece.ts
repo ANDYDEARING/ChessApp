@@ -285,8 +285,30 @@ export class Piece{
           }
           if(this.board.canCastle(this)){
             let castleRooks = this.board.canCastle(this);
+            let clearRight:boolean = false;
+            let clearLeft:boolean = false;
             for(let i=0;i<castleRooks.length;i++){
-                //check to see if space is empty
+                if(castleRooks[i].location[0]==0){
+                    clearLeft = true;
+                    for(let x=1;x<=3;x++){
+                        if(this.board.getPieceAtLocation([x, this.location[1]])){
+                            clearLeft = false;
+                        }
+                    }
+                    if(clearLeft){
+                        potentialMoveSpaces.push([this.location[0]-2, this.location[1]]);
+                    }
+                } else {
+                    clearRight = true;
+                    for(let x=5;x<=6;x++){
+                        if(this.board.getPieceAtLocation([x, this.location[1]])){
+                            clearRight = false;
+                        }
+                    }
+                    if(clearRight){
+                        potentialMoveSpaces.push([this.location[0]+2, this.location[1]]);
+                    }
+                }
             }
           }
           return potentialMoveSpaces;
