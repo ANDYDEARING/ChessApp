@@ -89,9 +89,11 @@ export class Piece{
     
         for(let i=1;i<=maxMove;i++){
             let coord = [this.location[0], this.location[1]+(direction*i)];
-            if(!this.board.getPieceAtLocation(coord) 
-            && this.board.validateCoord(coord)){
+            if(this.board.validateCoord(coord) && 
+            !this.board.getPieceAtLocation(coord) ){
                 potentialMoveSpaces.push(coord);
+            } else {
+                break;
             }
         }
 
