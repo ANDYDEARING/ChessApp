@@ -283,6 +283,12 @@ export class Piece{
                 }
             }
           }
+          if(this.board.canCastle(this)){
+            let castleRooks = this.board.canCastle(this);
+            for(let i=0;i<castleRooks.length;i++){
+                //check to see if space is empty
+            }
+          }
           return potentialMoveSpaces;
       }
 }

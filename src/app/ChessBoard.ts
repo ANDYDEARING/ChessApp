@@ -4,9 +4,11 @@ export class ChessBoard {
     board2DArray: Piece[][];
     pieceList : Piece[];
     enPassantCoord: number[];
+    ineligibleToCastle: Piece[];
     constructor(){
         this.pieceList = [];
         this.board2DArray = [];
+        this.ineligibleToCastle = [];
         for(let i=0;i<8;i++){
             this.board2DArray[i]=[];
             for(let j=0;j<8;j++){
@@ -71,6 +73,9 @@ export class ChessBoard {
             } else {
                 this.enPassantCoord = null;
             }
+            if(piece.name == "ROOK" || piece.name == "KING"){
+                this.ineligibleToCastle.push(piece);
+            }
 
             piece.location = coord;
 
@@ -92,6 +97,27 @@ export class ChessBoard {
                 let coordString = piece.location[0].toString()+piece.location[1].toString();
                 document.getElementById(coordString).innerText = piece.symbol;
             }
+        }
+    }
+    canCastle(king:Piece):Piece[]{
+        if(king.name == "KING" && !this.ineligibleToCastle.includes(king)){
+            let resultList = [];
+            for(let i=0;i<this.pieceList.length;i++){
+                let testPiece = this.pieceList[i];
+                if(testPiece.name=="ROOK" 
+                && testPiece.owner == king.owner 
+                && testPiece.location 
+                && !this.ineligibleToCastle.includes(testPiece)){
+                    resultList.push(testPiece);
+                }
+            }
+            if(resultList.length > 0){
+                return resultList;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
         }
     }
 }

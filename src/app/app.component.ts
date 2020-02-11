@@ -43,7 +43,9 @@ export class AppComponent {
     }
     else {
       this.clearGreenBorder();
-      this.selectedSpace.classList.remove("border-blue");
+      if(this.selectedSpace){
+        this.selectedSpace.classList.remove("border-blue");
+      }
     }
   }
   isPiecesTurn(piece:Piece){
@@ -101,8 +103,10 @@ export class AppComponent {
     this.highlightedMoves = moveList;
   }
   clearGreenBorder(){
-    for(let i=0;i<this.highlightedMoves.length;i++){
-      this.highlightedMoves[i].classList.remove("border-green");
+    if(this.highlightedMoves){
+      for(let i=0;i<this.highlightedMoves.length;i++){
+        this.highlightedMoves[i].classList.remove("border-green");
+      }
     }
   }
 }
