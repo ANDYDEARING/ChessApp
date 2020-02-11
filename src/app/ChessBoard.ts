@@ -5,7 +5,10 @@ export class ChessBoard {
     pieceList : Piece[];
     enPassantCoord: number[];
     ineligibleToCastle: Piece[];
+    check:boolean;
+    checkedKingSpace:Element;
     constructor(){
+        this.check = false;
         this.pieceList = [];
         this.board2DArray = [];
         this.ineligibleToCastle = [];
@@ -32,6 +35,13 @@ export class ChessBoard {
             return this.board2DArray[coord[0]][coord[1]];
         } else {
             throw new TypeError("Invalid location format: " + coord);
+        }
+    }
+    getElementForPiece(piece:Piece):Element{
+        if(piece.location){
+            return document.getElementById(piece.location[0].toString()+ piece.location[1].toString());
+        } else {
+            return null;
         }
     }
     validateCoord(coord:number[]){
@@ -90,16 +100,31 @@ export class ChessBoard {
                     this.movePiece(this.getPieceAtLocation( [0,coord[1]] ), [3,coord[1]] );
                 }
             }
-            
+
             if(piece.name == "PAWN" && 
             ((coord[1]==0 && piece.owner == "WHITE") || (coord[1]==7 && piece.owner == "BLACK") )){
                 piece.name = "QUEEN";
                 piece.symbol = piece.getSymbol();
             }
-            
+            if(this.checkedKingSpace){
+                this.checkedKingSpace.classList.remove("red");
+                this.checkedKingSpace = null;
+            }
+            this.check = this.checkForCheck(piece.owner);
+            if(this.check){
+                this.checkedKingSpace = this.getElementForPiece(this.findKing(this.getOpponent(piece.owner)));
+                this.checkedKingSpace.classList.add("red");
+            }
             this.display();
         } else {
             throw new TypeError("Invalid location format: " + coord);
+        }
+    }
+    getOpponent(side:string):string{
+        if(side == "WHITE"){
+            return "BLACK";
+        } else {
+            return "WHITE";
         }
     }
     display(){
@@ -131,5 +156,35 @@ export class ChessBoard {
         } else {
             return null;
         }
+    }
+    findKing(owner:string):Piece{
+        for(let i=0;i<this.pieceList.length;i++){
+            let testPiece = this.pieceList[i];
+            if(testPiece.name == "KING" && testPiece.owner == owner){
+                return testPiece;
+            }
+        }
+    }
+    checkForCheck(aggressor:string):boolean{
+        this.check = false;
+        let defenderKing:Piece;
+        if(aggressor == "WHITE"){
+            defenderKing = this.findKing("BLACK");
+        } else {
+            defenderKing = this.findKing("WHITE");
+        }
+        for(let i=0;i<this.pieceList.length;i++){
+            let testPiece = this.pieceList[i];
+            if(testPiece.owner == aggressor && testPiece.location){
+                let threatenedSpaces = testPiece.getMoves();
+                for(let j=0;j<threatenedSpaces.length;j++){
+                    if(threatenedSpaces[j][0]==defenderKing.location[0]
+                    && threatenedSpaces[j][1]==defenderKing.location[1]){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
