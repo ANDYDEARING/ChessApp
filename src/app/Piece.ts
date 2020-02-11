@@ -186,7 +186,18 @@ export class Piece{
         return potentialMoveSpaces;
       }
       private getKnightMoves(){
-          return null;
+        let potentialMoveSpaces : number[][] = [];
+        for(let x=-2;x<=2;x++){
+          for(let y=-2;y<=2;y++){
+              let coord = [this.location[0]+x, this.location[1]+y];
+              if( (this.board.validateCoord(coord)) && x!=0 && y!=0
+              && (Math.abs(x)!=Math.abs(y)) && (!this.board.getPieceAtLocation(coord)
+              || this.board.getPieceAtLocation(coord).owner != this.owner) ){
+                  potentialMoveSpaces.push(coord);
+              }
+          }
+        }
+        return potentialMoveSpaces;
       }
       private getBishopMoves(){
         var potentialMoveSpaces : number[][] = [];
