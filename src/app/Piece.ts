@@ -157,7 +157,7 @@ export class Piece{
         }
         //east
         for(let i=1;i<=maxMove;i++){
-            let coord = [this.location[0]+1, this.location[1]];
+            let coord = [this.location[0]+i, this.location[1]];
             if(this.board.validateCoord(coord)
             &&!this.board.getPieceAtLocation(coord)){
                 potentialMoveSpaces.push(coord);
@@ -189,7 +189,66 @@ export class Piece{
           return null;
       }
       private getBishopMoves(){
-          return null;
+        var potentialMoveSpaces : number[][] = [];
+        let maxMove = 7;
+    
+        //northeast
+        for(let i=1;i<=maxMove;i++){
+            let coord = [this.location[0]+i, this.location[1]-i];
+            if(this.board.validateCoord(coord)
+            &&!this.board.getPieceAtLocation(coord)){
+                potentialMoveSpaces.push(coord);
+            } else if(this.board.validateCoord(coord) 
+            && this.board.getPieceAtLocation(coord).owner != this.owner){
+                potentialMoveSpaces.push(coord);
+                break;
+            } else {
+                break;
+            }
+        }
+        //southeast
+        for(let i=1;i<=maxMove;i++){
+            let coord = [this.location[0]+i, this.location[1]+i];
+            if(this.board.validateCoord(coord)
+            &&!this.board.getPieceAtLocation(coord)){
+                potentialMoveSpaces.push(coord);
+            } else if(this.board.validateCoord(coord) 
+            && this.board.getPieceAtLocation(coord).owner != this.owner){
+                potentialMoveSpaces.push(coord);
+                break;
+            } else {
+                break;
+            }
+        }
+        //northwest
+        for(let i=1;i<=maxMove;i++){
+            let coord = [this.location[0]-i, this.location[1]-i];
+            if(this.board.validateCoord(coord)
+            &&!this.board.getPieceAtLocation(coord)){
+                potentialMoveSpaces.push(coord);
+            } else if(this.board.validateCoord(coord) 
+            && this.board.getPieceAtLocation(coord).owner != this.owner){
+                potentialMoveSpaces.push(coord);
+                break;
+            } else {
+                break;
+            }
+        }
+        //southwest
+        for(let i=1;i<=maxMove;i++){
+            let coord = [this.location[0]-i, this.location[1]+i];
+            if(this.board.validateCoord(coord)
+            &&!this.board.getPieceAtLocation(coord)){
+                potentialMoveSpaces.push(coord);
+            } else if(this.board.validateCoord(coord) 
+            && this.board.getPieceAtLocation(coord).owner != this.owner){
+                potentialMoveSpaces.push(coord);
+                break;
+            } else {
+                break;
+            }
+        }
+        return potentialMoveSpaces;
       }
       private getQueenMoves(){
           return null;
