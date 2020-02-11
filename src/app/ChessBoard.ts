@@ -52,6 +52,8 @@ export class ChessBoard {
         if(this.validateCoord(coord)){
 
             let capturedPiece = this.getPieceAtLocation(coord);
+            
+            //check for enPassant capture
             if(piece.name == "PAWN" && (this.enPassantCoord) &&
             (coord[0] == this.enPassantCoord[0] && coord[1] == this.enPassantCoord[1])){
                 if (piece.owner == "WHITE"){
@@ -60,6 +62,8 @@ export class ChessBoard {
                     capturedPiece = this.getPieceAtLocation([coord[0],coord[1]-1]);
                 }
             }
+
+            //remove the captured piece from the page and the board data, then change its location to null
             if(capturedPiece){
                 let capturedCoordString = 
                   capturedPiece.location[0].toString()+ capturedPiece.location[1].toString();
@@ -68,31 +72,40 @@ export class ChessBoard {
                 capturedPiece.location = null;
             }
 
-
+            //remove the moving piece from its previous location on the page and in the array
+            //keep the piece's old location in Piece.location for comparison (for now)
             let coordString = piece.location[0].toString()+piece.location[1].toString();
             document.getElementById(coordString).innerText = "";
             this.board2DArray[piece.location[0]][piece.location[1]] = null;
             this.board2DArray[coord[0]][coord[1]] = piece;
 
+            //if the piece is a pawn and it moved 2 spaces, leave a marker for en passant
             if(piece.name == "PAWN" && (Math.abs(piece.location[1]-coord[1])==2) ){
                 if(coord[1]==4){
                     this.enPassantCoord = [coord[0],5];
                 } else {
                     this.enPassantCoord = [coord[0],2];
                 }
+            //clear out old en passant coord because the opponent only has one move to react
             } else {
                 this.enPassantCoord = null;
             }
+
+            //if a piece moves, it can't be used in a castle
             if(piece.name == "ROOK" || piece.name == "KING"){
                 this.ineligibleToCastle.push(piece);
             }
+
+            //clear out the old value and check to see if the king moved 2 (castle)
             let castle:boolean = false;
             if(piece.name == "KING" && Math.abs(piece.location[0]-coord[0])==2){
                 castle = true;
             }
 
+            //update the piece.location now
             piece.location = coord;
 
+            //if castle, "flip" the rook to the other side
             if(castle){
                 if(coord[0]==6){
                     this.movePiece(this.getPieceAtLocation( [7,coord[1]] ), [5,coord[1]] );
@@ -101,11 +114,14 @@ export class ChessBoard {
                 }
             }
 
+            //if a pawn reached the other side, make it a queen
             if(piece.name == "PAWN" && 
             ((coord[1]==0 && piece.owner == "WHITE") || (coord[1]==7 && piece.owner == "BLACK") )){
                 piece.name = "QUEEN";
                 piece.symbol = piece.getSymbol();
             }
+
+            //clear previous king highlight (if any) and highlight the king in red if in check
             if(this.checkedKingSpace){
                 this.checkedKingSpace.classList.remove("red");
                 this.checkedKingSpace = null;
@@ -115,6 +131,8 @@ export class ChessBoard {
                 this.checkedKingSpace = this.getElementForPiece(this.findKing(this.getOpponent(piece.owner)));
                 this.checkedKingSpace.classList.add("red");
             }
+
+            //display results
             this.display();
         } else {
             throw new TypeError("Invalid location format: " + coord);
