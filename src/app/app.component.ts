@@ -26,11 +26,13 @@ export class AppComponent {
     if(clickedSpace.classList.contains("border-green")){
       let coord = [parseInt(clickedSpace.id[0]),parseInt(clickedSpace.id[1])];
       this.board.movePiece(this.getPiece(this.selectedSpace),coord);
+      this.isWhiteTurn = !this.isWhiteTurn;
       this.clearGreenBorder();
       this.selectedSpace.classList.remove("border-blue");
     }
 
-    else if(this.board.getPieceAtLocation(clickedCoord)){
+    else if(this.board.getPieceAtLocation(clickedCoord) 
+    && this.isPiecesTurn(this.board.getPieceAtLocation(clickedCoord))){
       if(this.selectedSpace){
         this.selectedSpace.classList.remove("border-blue");
       }
@@ -43,6 +45,9 @@ export class AppComponent {
       this.clearGreenBorder();
       this.selectedSpace.classList.remove("border-blue");
     }
+  }
+  isPiecesTurn(piece:Piece){
+    return this.isWhiteTurn == (piece.owner == "WHITE");
   }
   convertToElements(coordList:number[][]):Element[]{
     let results : Element[] = [];
