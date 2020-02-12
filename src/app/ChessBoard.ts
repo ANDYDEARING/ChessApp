@@ -128,6 +128,9 @@ export class ChessBoard {
             }
             this.check = this.checkForCheck(piece.owner);
             if(this.check){
+                if(this.checkForCheckmate(piece.owner)){
+                    console.log("CHECKMATE");
+                }
                 this.checkedKingSpace = this.getElementForPiece(this.findKing(this.getOpponent(piece.owner)));
                 this.checkedKingSpace.classList.add("red");
             }
@@ -301,6 +304,13 @@ export class ChessBoard {
         return cloneBoard;
     }
     checkForCheckmate(aggressor:string):boolean{
-        return false;
+        let availableMoves:number = 0;
+        for(let i=0;i<this.pieceList.length;i++){
+            let testPiece = this.pieceList[i];
+            if(testPiece.owner==this.getOpponent(aggressor) && testPiece.location){
+                availableMoves += testPiece.getMoves().length;
+            }
+        }
+        return availableMoves == 0;
     }
 }
