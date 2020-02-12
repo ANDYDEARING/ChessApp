@@ -22,16 +22,15 @@ export class AppComponent {
   onClick($event){
     let clickedSpace = $event.toElement;
     let clickedCoord = [parseInt(clickedSpace.id[0]),parseInt(clickedSpace.id[1])];
-
+    
     if(clickedSpace.classList.contains("border-green")){
       let coord = [parseInt(clickedSpace.id[0]),parseInt(clickedSpace.id[1])];
       this.board.movePiece(this.getPiece(this.selectedSpace),coord);
+      this.board.display();
       this.isWhiteTurn = !this.isWhiteTurn;
       this.clearGreenBorder();
       this.selectedSpace.classList.remove("border-blue");
-    }
-
-    else if(this.board.getPieceAtLocation(clickedCoord) 
+    } else if(this.board.getPieceAtLocation(clickedCoord) 
     && this.isPiecesTurn(this.board.getPieceAtLocation(clickedCoord))){
       if(this.selectedSpace){
         this.selectedSpace.classList.remove("border-blue");
@@ -40,13 +39,13 @@ export class AppComponent {
       this.selectedSpace.classList.add("border-blue");
       this.highlightMoves(this.convertToElements(
         this.getPiece(this.selectedSpace).getMoves()));
-    }
-    else {
+    } else {
       this.clearGreenBorder();
       if(this.selectedSpace){
         this.selectedSpace.classList.remove("border-blue");
       }
     }
+
   }
   isPiecesTurn(piece:Piece){
     return this.isWhiteTurn == (piece.owner == "WHITE");
@@ -63,7 +62,6 @@ export class AppComponent {
   }
 
   initializePieces(){
-    //this.board.addPiece(new Piece("white","pawn",[0,6], this.board));
     for(let i=0; i<8; i++){
       this.board.addPiece(new Piece("white","pawn",[i,6], this.board));
       this.board.addPiece(new Piece("black","pawn",[i,1], this.board));

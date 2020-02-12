@@ -67,6 +67,9 @@ export class Piece{
             potentialMoveSpaces = this.getKingMoves();
             break;
         }
+        if(this.board.check){
+            potentialMoveSpaces = this.removeIllegalMoves(potentialMoveSpaces);
+        }
         return potentialMoveSpaces;
     }
     
@@ -124,193 +127,210 @@ export class Piece{
         }
 
         return potentialMoveSpaces;
-      }
-      private getRookMoves(){
-        var potentialMoveSpaces : number[][] = [];
-        let maxMove = 7;
-    
-        //north
-        for(let i=1;i<=maxMove;i++){
-            let coord = [this.location[0], this.location[1]-i];
-            if(this.board.validateCoord(coord)
-            &&!this.board.getPieceAtLocation(coord)){
+    }
+    private getRookMoves(){
+    var potentialMoveSpaces : number[][] = [];
+    let maxMove = 7;
+
+    //north
+    for(let i=1;i<=maxMove;i++){
+        let coord = [this.location[0], this.location[1]-i];
+        if(this.board.validateCoord(coord)
+        &&!this.board.getPieceAtLocation(coord)){
+            potentialMoveSpaces.push(coord);
+        } else if(this.board.validateCoord(coord) 
+        && this.board.getPieceAtLocation(coord).owner != this.owner){
+            potentialMoveSpaces.push(coord);
+            break;
+        } else {
+            break;
+        }
+    }
+    //south
+    for(let i=1;i<=maxMove;i++){
+        let coord = [this.location[0], this.location[1]+i];
+        if(this.board.validateCoord(coord)
+        &&!this.board.getPieceAtLocation(coord)){
+            potentialMoveSpaces.push(coord);
+        } else if(this.board.validateCoord(coord) 
+        && this.board.getPieceAtLocation(coord).owner != this.owner){
+            potentialMoveSpaces.push(coord);
+            break;
+        } else {
+            break;
+        }
+    }
+    //east
+    for(let i=1;i<=maxMove;i++){
+        let coord = [this.location[0]+i, this.location[1]];
+        if(this.board.validateCoord(coord)
+        &&!this.board.getPieceAtLocation(coord)){
+            potentialMoveSpaces.push(coord);
+        } else if(this.board.validateCoord(coord) 
+        && this.board.getPieceAtLocation(coord).owner != this.owner){
+            potentialMoveSpaces.push(coord);
+            break;
+        } else {
+            break;
+        }
+    }
+    //west
+    for(let i=1;i<=maxMove;i++){
+        let coord = [this.location[0]-i, this.location[1]];
+        if(this.board.validateCoord(coord)
+        &&!this.board.getPieceAtLocation(coord)){
+            potentialMoveSpaces.push(coord);
+        } else if(this.board.validateCoord(coord) 
+        && this.board.getPieceAtLocation(coord).owner != this.owner){
+            potentialMoveSpaces.push(coord);
+            break;
+        } else {
+            break;
+        }
+    }
+    return potentialMoveSpaces;
+    }
+    private getKnightMoves(){
+    let potentialMoveSpaces : number[][] = [];
+    for(let x=-2;x<=2;x++){
+        for(let y=-2;y<=2;y++){
+            let coord = [this.location[0]+x, this.location[1]+y];
+            if( (this.board.validateCoord(coord)) && x!=0 && y!=0
+            && (Math.abs(x)!=Math.abs(y)) && (!this.board.getPieceAtLocation(coord)
+            || this.board.getPieceAtLocation(coord).owner != this.owner) ){
                 potentialMoveSpaces.push(coord);
-            } else if(this.board.validateCoord(coord) 
-            && this.board.getPieceAtLocation(coord).owner != this.owner){
-                potentialMoveSpaces.push(coord);
-                break;
-            } else {
-                break;
             }
         }
-        //south
-        for(let i=1;i<=maxMove;i++){
-            let coord = [this.location[0], this.location[1]+i];
-            if(this.board.validateCoord(coord)
-            &&!this.board.getPieceAtLocation(coord)){
-                potentialMoveSpaces.push(coord);
-            } else if(this.board.validateCoord(coord) 
-            && this.board.getPieceAtLocation(coord).owner != this.owner){
-                potentialMoveSpaces.push(coord);
-                break;
-            } else {
-                break;
-            }
+    }
+    return potentialMoveSpaces;
+    }
+    private getBishopMoves(){
+    var potentialMoveSpaces : number[][] = [];
+    let maxMove = 7;
+
+    //northeast
+    for(let i=1;i<=maxMove;i++){
+        let coord = [this.location[0]+i, this.location[1]-i];
+        if(this.board.validateCoord(coord)
+        &&!this.board.getPieceAtLocation(coord)){
+            potentialMoveSpaces.push(coord);
+        } else if(this.board.validateCoord(coord) 
+        && this.board.getPieceAtLocation(coord).owner != this.owner){
+            potentialMoveSpaces.push(coord);
+            break;
+        } else {
+            break;
         }
-        //east
-        for(let i=1;i<=maxMove;i++){
-            let coord = [this.location[0]+i, this.location[1]];
-            if(this.board.validateCoord(coord)
-            &&!this.board.getPieceAtLocation(coord)){
-                potentialMoveSpaces.push(coord);
-            } else if(this.board.validateCoord(coord) 
-            && this.board.getPieceAtLocation(coord).owner != this.owner){
-                potentialMoveSpaces.push(coord);
-                break;
-            } else {
-                break;
-            }
+    }
+    //southeast
+    for(let i=1;i<=maxMove;i++){
+        let coord = [this.location[0]+i, this.location[1]+i];
+        if(this.board.validateCoord(coord)
+        &&!this.board.getPieceAtLocation(coord)){
+            potentialMoveSpaces.push(coord);
+        } else if(this.board.validateCoord(coord) 
+        && this.board.getPieceAtLocation(coord).owner != this.owner){
+            potentialMoveSpaces.push(coord);
+            break;
+        } else {
+            break;
         }
-        //west
-        for(let i=1;i<=maxMove;i++){
-            let coord = [this.location[0]-i, this.location[1]];
-            if(this.board.validateCoord(coord)
-            &&!this.board.getPieceAtLocation(coord)){
-                potentialMoveSpaces.push(coord);
-            } else if(this.board.validateCoord(coord) 
-            && this.board.getPieceAtLocation(coord).owner != this.owner){
-                potentialMoveSpaces.push(coord);
-                break;
-            } else {
-                break;
-            }
+    }
+    //northwest
+    for(let i=1;i<=maxMove;i++){
+        let coord = [this.location[0]-i, this.location[1]-i];
+        if(this.board.validateCoord(coord)
+        &&!this.board.getPieceAtLocation(coord)){
+            potentialMoveSpaces.push(coord);
+        } else if(this.board.validateCoord(coord) 
+        && this.board.getPieceAtLocation(coord).owner != this.owner){
+            potentialMoveSpaces.push(coord);
+            break;
+        } else {
+            break;
         }
-        return potentialMoveSpaces;
-      }
-      private getKnightMoves(){
+    }
+    //southwest
+    for(let i=1;i<=maxMove;i++){
+        let coord = [this.location[0]-i, this.location[1]+i];
+        if(this.board.validateCoord(coord)
+        &&!this.board.getPieceAtLocation(coord)){
+            potentialMoveSpaces.push(coord);
+        } else if(this.board.validateCoord(coord) 
+        && this.board.getPieceAtLocation(coord).owner != this.owner){
+            potentialMoveSpaces.push(coord);
+            break;
+        } else {
+            break;
+        }
+    }
+    return potentialMoveSpaces;
+    }
+    private getQueenMoves(){
+    var potentialMoveSpaces : number[][] = this.getBishopMoves();
+    let rookMoves : number[][] = this.getRookMoves();
+    for(let i=0;i<rookMoves.length;i++){
+        potentialMoveSpaces.push(rookMoves[i]);
+    }
+    return potentialMoveSpaces;
+    }
+    private getKingMoves(){
         let potentialMoveSpaces : number[][] = [];
-        for(let x=-2;x<=2;x++){
-          for(let y=-2;y<=2;y++){
-              let coord = [this.location[0]+x, this.location[1]+y];
-              if( (this.board.validateCoord(coord)) && x!=0 && y!=0
-              && (Math.abs(x)!=Math.abs(y)) && (!this.board.getPieceAtLocation(coord)
-              || this.board.getPieceAtLocation(coord).owner != this.owner) ){
-                  potentialMoveSpaces.push(coord);
-              }
-          }
-        }
-        return potentialMoveSpaces;
-      }
-      private getBishopMoves(){
-        var potentialMoveSpaces : number[][] = [];
-        let maxMove = 7;
-    
-        //northeast
-        for(let i=1;i<=maxMove;i++){
-            let coord = [this.location[0]+i, this.location[1]-i];
-            if(this.board.validateCoord(coord)
-            &&!this.board.getPieceAtLocation(coord)){
+        for(let x=-1;x<=1;x++){
+        for(let y=-1;y<=1;y++){
+            let coord = [this.location[0]+x, this.location[1]+y];
+            if( (this.board.validateCoord(coord)) && (x!=0 || y!=0) 
+            && (!this.board.getPieceAtLocation(coord)
+            || this.board.getPieceAtLocation(coord).owner != this.owner) ){
                 potentialMoveSpaces.push(coord);
-            } else if(this.board.validateCoord(coord) 
-            && this.board.getPieceAtLocation(coord).owner != this.owner){
-                potentialMoveSpaces.push(coord);
-                break;
-            } else {
-                break;
             }
         }
-        //southeast
-        for(let i=1;i<=maxMove;i++){
-            let coord = [this.location[0]+i, this.location[1]+i];
-            if(this.board.validateCoord(coord)
-            &&!this.board.getPieceAtLocation(coord)){
-                potentialMoveSpaces.push(coord);
-            } else if(this.board.validateCoord(coord) 
-            && this.board.getPieceAtLocation(coord).owner != this.owner){
-                potentialMoveSpaces.push(coord);
-                break;
-            } else {
-                break;
-            }
         }
-        //northwest
-        for(let i=1;i<=maxMove;i++){
-            let coord = [this.location[0]-i, this.location[1]-i];
-            if(this.board.validateCoord(coord)
-            &&!this.board.getPieceAtLocation(coord)){
-                potentialMoveSpaces.push(coord);
-            } else if(this.board.validateCoord(coord) 
-            && this.board.getPieceAtLocation(coord).owner != this.owner){
-                potentialMoveSpaces.push(coord);
-                break;
-            } else {
-                break;
-            }
-        }
-        //southwest
-        for(let i=1;i<=maxMove;i++){
-            let coord = [this.location[0]-i, this.location[1]+i];
-            if(this.board.validateCoord(coord)
-            &&!this.board.getPieceAtLocation(coord)){
-                potentialMoveSpaces.push(coord);
-            } else if(this.board.validateCoord(coord) 
-            && this.board.getPieceAtLocation(coord).owner != this.owner){
-                potentialMoveSpaces.push(coord);
-                break;
-            } else {
-                break;
-            }
-        }
-        return potentialMoveSpaces;
-      }
-      private getQueenMoves(){
-        var potentialMoveSpaces : number[][] = this.getBishopMoves();
-        let rookMoves : number[][] = this.getRookMoves();
-        for(let i=0;i<rookMoves.length;i++){
-            potentialMoveSpaces.push(rookMoves[i]);
-        }
-        return potentialMoveSpaces;
-      }
-      private getKingMoves(){
-          let potentialMoveSpaces : number[][] = [];
-          for(let x=-1;x<=1;x++){
-            for(let y=-1;y<=1;y++){
-                let coord = [this.location[0]+x, this.location[1]+y];
-                if( (this.board.validateCoord(coord)) && (x!=0 || y!=0) 
-                && (!this.board.getPieceAtLocation(coord)
-                || this.board.getPieceAtLocation(coord).owner != this.owner) ){
-                    potentialMoveSpaces.push(coord);
-                }
-            }
-          }
-          if(this.board.canCastle(this)){
-            let castleRooks = this.board.canCastle(this);
-            let clearRight:boolean = false;
-            let clearLeft:boolean = false;
-            for(let i=0;i<castleRooks.length;i++){
-                if(castleRooks[i].location[0]==0){
-                    clearLeft = true;
-                    for(let x=1;x<=3;x++){
-                        if(this.board.getPieceAtLocation([x, this.location[1]])){
-                            clearLeft = false;
-                        }
-                    }
-                    if(clearLeft){
-                        potentialMoveSpaces.push([this.location[0]-2, this.location[1]]);
-                    }
-                } else {
-                    clearRight = true;
-                    for(let x=5;x<=6;x++){
-                        if(this.board.getPieceAtLocation([x, this.location[1]])){
-                            clearRight = false;
-                        }
-                    }
-                    if(clearRight){
-                        potentialMoveSpaces.push([this.location[0]+2, this.location[1]]);
+        if(this.board.canCastle(this)){
+        let castleRooks = this.board.canCastle(this);
+        let clearRight:boolean = false;
+        let clearLeft:boolean = false;
+        for(let i=0;i<castleRooks.length;i++){
+            if(castleRooks[i].location[0]==0){
+                clearLeft = true;
+                for(let x=1;x<=3;x++){
+                    if(this.board.getPieceAtLocation([x, this.location[1]])){
+                        clearLeft = false;
                     }
                 }
+                if(clearLeft){
+                    potentialMoveSpaces.push([this.location[0]-2, this.location[1]]);
+                }
+            } else {
+                clearRight = true;
+                for(let x=5;x<=6;x++){
+                    if(this.board.getPieceAtLocation([x, this.location[1]])){
+                        clearRight = false;
+                    }
+                }
+                if(clearRight){
+                    potentialMoveSpaces.push([this.location[0]+2, this.location[1]]);
+                }
             }
-          }
-          return potentialMoveSpaces;
-      }
+        }
+        }
+        return potentialMoveSpaces;
+    }
+    removeIllegalMoves(moveCoords:number[][]):number[][]{
+        let resultCoordList:number[][] = [];
+        for(let i=0;i<moveCoords.length;i++){
+            //deep copy
+            let boardClone = this.board.makeClone();
+            let clonePiece = boardClone.getPieceAtLocation(this.location);
+            boardClone.moveClonePiece(clonePiece,moveCoords[i]);
+            if(!boardClone.checkForCheck(this.board.getOpponent(this.owner))){
+                resultCoordList.push(moveCoords[i]);
+            }
+        }
+        return resultCoordList;
+    }
+    makeClone(board:ChessBoard):Piece{
+        let clone = new Piece(this.owner, this.name, this.location, board);
+        return clone;
+    }
 }
