@@ -1,5 +1,4 @@
 import { Piece } from './Piece';
-import { THIS_EXPR } from '../../node_modules/@angular/compiler/src/output/output_ast';
 
 export class ChessBoard {
     board2DArray: Piece[][];
@@ -49,11 +48,14 @@ export class ChessBoard {
         return(coord.length==2 && 0<=coord[0] 
             && coord[0]<=7 && 0<=coord[1] && coord[1]<=7);
     }
-    movePiece(piece:Piece, coord:number[]){
+    movePiece(piece:Piece, coord:number[], test:boolean=false){
+        // if(!piece){
+        //     debugger;
+        // }
         if(this.validateCoord(coord)){
 
             let capturedPiece = this.getPieceAtLocation(coord);
-            
+
             //check for enPassant capture
             if(piece.name == "PAWN" && (this.enPassantCoord) &&
             (coord[0] == this.enPassantCoord[0] && coord[1] == this.enPassantCoord[1])){
@@ -66,17 +68,12 @@ export class ChessBoard {
 
             //remove the captured piece from the page and the board data, then change its location to null
             if(capturedPiece){
-                let capturedCoordString = 
-                  capturedPiece.location[0].toString()+ capturedPiece.location[1].toString();
-                document.getElementById(capturedCoordString).innerText = "";
                 this.board2DArray[capturedPiece.location[0]][capturedPiece.location[1]] = null;
                 capturedPiece.location = null;
             }
 
-            //remove the moving piece from its previous location on the page and in the array
+            //move the piece's position in the array
             //keep the piece's old location in Piece.location for comparison (for now)
-            let coordString = piece.location[0].toString()+piece.location[1].toString();
-            document.getElementById(coordString).innerText = "";
             this.board2DArray[piece.location[0]][piece.location[1]] = null;
             this.board2DArray[coord[0]][coord[1]] = piece;
 
@@ -87,6 +84,7 @@ export class ChessBoard {
                 } else {
                     this.enPassantCoord = [coord[0],2];
                 }
+
             //clear out old en passant coord because the opponent only has one move to react
             } else {
                 this.enPassantCoord = null;
@@ -122,13 +120,13 @@ export class ChessBoard {
                 piece.symbol = piece.getSymbol();
             }
 
-            //clear previous king highlight (if any) and highlight the king in red if in check
+            //clear previous checked king space (if any) and check for check
             if(this.checkedKingSpace){
-                this.checkedKingSpace.classList.remove("red");
                 this.checkedKingSpace = null;
             }
             this.check = this.checkForCheck(piece.owner);
-            if(this.check){
+            //only check for endstate on test=false
+            if(this.check && !test){
                 if(this.checkForCheckmate(piece.owner)){
                     let winner = piece.owner.toLowerCase();
                     winner = winner.charAt(0).toUpperCase() + winner.substring(1);
@@ -136,98 +134,10 @@ export class ChessBoard {
                 }
                 this.checkedKingSpace = this.getElementForPiece(this.findKing(this.getOpponent(piece.owner)));
                 this.checkedKingSpace.classList.add("red");
-            } else {
+            } else if(!test){
                 if(this.checkForStalemate(this.getOpponent(piece.owner))){
                     this.endGame("Stalemate. The game is a draw.");
                 }
-            }
-        } else {
-            throw new TypeError("Invalid location format: " + coord);
-        }
-    }
-    moveClonePiece(piece:Piece, coord:number[]){
-        //"safe" clone of movePiece method with all DOM elements removed
-        if(this.validateCoord(coord)){
-
-            let capturedPiece = this.getPieceAtLocation(coord);
-            
-            //check for enPassant capture
-            if(piece.name == "PAWN" && (this.enPassantCoord) &&
-            (coord[0] == this.enPassantCoord[0] && coord[1] == this.enPassantCoord[1])){
-                if (piece.owner == "WHITE"){
-                    capturedPiece = this.getPieceAtLocation([coord[0],coord[1]+1]);
-                } else {
-                    capturedPiece = this.getPieceAtLocation([coord[0],coord[1]-1]);
-                }
-            }
-
-            //remove the captured piece from the page and the board data, then change its location to null
-            if(capturedPiece){
-                let capturedCoordString = 
-                  capturedPiece.location[0].toString()+ capturedPiece.location[1].toString();
-                //document.getElementById(capturedCoordString).innerText = "";
-                this.board2DArray[capturedPiece.location[0]][capturedPiece.location[1]] = null;
-                capturedPiece.location = null;
-            }
-
-            //remove the moving piece from its previous location on the page and in the array
-            //keep the piece's old location in Piece.location for comparison (for now)
-            //let coordString = piece.location[0].toString()+piece.location[1].toString();
-            //document.getElementById(coordString).innerText = "";
-            this.board2DArray[piece.location[0]][piece.location[1]] = null;
-            this.board2DArray[coord[0]][coord[1]] = piece;
-
-            //if the piece is a pawn and it moved 2 spaces, leave a marker for en passant
-            if(piece.name == "PAWN" && (Math.abs(piece.location[1]-coord[1])==2) ){
-                if(coord[1]==4){
-                    this.enPassantCoord = [coord[0],5];
-                } else {
-                    this.enPassantCoord = [coord[0],2];
-                }
-            //clear out old en passant coord because the opponent only has one move to react
-            } else {
-                this.enPassantCoord = null;
-            }
-
-            //if a piece moves, it can't be used in a castle
-            if(piece.name == "ROOK" || piece.name == "KING"){
-                this.ineligibleToCastle.push(piece);
-            }
-
-            //clear out the old value and check to see if the king moved 2 (castle)
-            let castle:boolean = false;
-            if(piece.name == "KING" && Math.abs(piece.location[0]-coord[0])==2){
-                castle = true;
-            }
-
-            //update the piece.location now
-            piece.location = coord;
-
-            //if castle, "flip" the rook to the other side
-            if(castle){
-                if(coord[0]==6){
-                    this.moveClonePiece(this.getPieceAtLocation( [7,coord[1]] ), [5,coord[1]] );
-                } else {
-                    this.moveClonePiece(this.getPieceAtLocation( [0,coord[1]] ), [3,coord[1]] );
-                }
-            }
-
-            //if a pawn reached the other side, make it a queen
-            if(piece.name == "PAWN" && 
-            ((coord[1]==0 && piece.owner == "WHITE") || (coord[1]==7 && piece.owner == "BLACK") )){
-                piece.name = "QUEEN";
-                piece.symbol = piece.getSymbol();
-            }
-
-            //clear previous king highlight (if any) and highlight the king in red if in check
-            if(this.checkedKingSpace){
-                //this.checkedKingSpace.classList.remove("red");
-                this.checkedKingSpace = null;
-            }
-            this.check = this.checkForCheck(piece.owner);
-            if(this.check){
-                //this.checkedKingSpace = this.getElementForPiece(this.findKing(this.getOpponent(piece.owner)));
-                //this.checkedKingSpace.classList.add("red");
             }
         } else {
             throw new TypeError("Invalid location format: " + coord);
@@ -241,12 +151,27 @@ export class ChessBoard {
         }
     }
     display(){
-        //need to centralize all display
+        for(let x=0;x<=7;x++){
+            for(let y=0;y<=7;y++){
+                let element = document.getElementById(x.toString()+y.toString());
+                element.innerText = "";
+                element.classList.remove("red");
+                element.classList.remove("white-piece");
+            }
+        }
+
+        if(this.checkedKingSpace){
+            this.checkedKingSpace.classList.add("red");
+        }
+
         for(let index=0;index<this.pieceList.length;index++){
             let piece = this.pieceList[index];
             if (piece.location){
                 let coordString = piece.location[0].toString()+piece.location[1].toString();
                 document.getElementById(coordString).innerText = piece.symbol;
+                if(piece.owner=="WHITE"){
+                    document.getElementById(coordString).classList.add("white-piece");
+                }
             }
         }
     }
@@ -264,12 +189,9 @@ export class ChessBoard {
             }
             if(resultList.length > 0){
                 return resultList;
-            } else {
-                return null;
             }
-        } else {
-            return null;
-        }
+        } 
+        return null;
     }
     findKing(owner:string):Piece{
         for(let i=0;i<this.pieceList.length;i++){
@@ -280,13 +202,10 @@ export class ChessBoard {
         }
     }
     checkForCheck(aggressor:string):boolean{
+        //assume not in check until verified
         this.check = false;
-        let defenderKing:Piece;
-        if(aggressor == "WHITE"){
-            defenderKing = this.findKing("BLACK");
-        } else {
-            defenderKing = this.findKing("WHITE");
-        }
+        let defenderKing:Piece = this.findKing(this.getOpponent(aggressor));
+        
         for(let i=0;i<this.pieceList.length;i++){
             let testPiece = this.pieceList[i];
             if(testPiece.owner == aggressor && testPiece.location){
@@ -323,6 +242,7 @@ export class ChessBoard {
     }
     checkForStalemate(defender:string):boolean{
         return this.checkForCheckmate(this.getOpponent(defender));
+        //possibly add to this for other stalemates?
     }
     endGame(message:string){
         let playAgain = window.confirm(message + "\nDo you want to play again?");
