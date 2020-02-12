@@ -1,4 +1,5 @@
 import { Piece } from './Piece';
+import { THIS_EXPR } from '../../node_modules/@angular/compiler/src/output/output_ast';
 
 export class ChessBoard {
     board2DArray: Piece[][];
@@ -129,10 +130,16 @@ export class ChessBoard {
             this.check = this.checkForCheck(piece.owner);
             if(this.check){
                 if(this.checkForCheckmate(piece.owner)){
-                    console.log("CHECKMATE");
+                    let winner = piece.owner.toLowerCase();
+                    winner = winner.charAt(0).toUpperCase() + winner.substring(1);
+                    this.endGame("Checkmate. " + winner + " is the winner.");
                 }
                 this.checkedKingSpace = this.getElementForPiece(this.findKing(this.getOpponent(piece.owner)));
                 this.checkedKingSpace.classList.add("red");
+            } else {
+                if(this.checkForStalemate(this.getOpponent(piece.owner))){
+                    this.endGame("Stalemate. The game is a draw.");
+                }
             }
         } else {
             throw new TypeError("Invalid location format: " + coord);
@@ -312,5 +319,15 @@ export class ChessBoard {
             }
         }
         return availableMoves == 0;
+    }
+    checkForStalemate(defender:string):boolean{
+        return this.checkForCheckmate(this.getOpponent(defender));
+    }
+    endGame(message:string){
+        let playAgain = window.confirm(message + "\nDo you want to play again?");
+        console.log(playAgain);
+        if(playAgain){
+            window.location.reload();
+        }
     }
 }
