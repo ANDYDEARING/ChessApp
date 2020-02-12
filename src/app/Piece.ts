@@ -45,7 +45,7 @@ export class Piece{
         }
     }
 
-    public getMoves():number[][]{
+    public getMoves(test:boolean=false):number[][]{
         var potentialMoveSpaces : number[][] = [];
         switch(this.name){
             case "PAWN":
@@ -67,7 +67,7 @@ export class Piece{
             potentialMoveSpaces = this.getKingMoves();
             break;
         }
-        if(this.board.check){
+        if(!test){
             potentialMoveSpaces = this.removeIllegalMoves(potentialMoveSpaces);
         }
         return potentialMoveSpaces;

@@ -62,25 +62,25 @@ export class AppComponent {
   }
 
   initializePieces(){
-    for(let i=0; i<8; i++){
-      this.board.addPiece(new Piece("white","pawn",[i,6], this.board));
-      this.board.addPiece(new Piece("black","pawn",[i,1], this.board));
-    }
-    this.board.addPiece(new Piece("white","rook",[0,7], this.board));
-    this.board.addPiece(new Piece("white","rook",[7,7], this.board));
-    this.board.addPiece(new Piece("white","knight",[1,7], this.board));
-    this.board.addPiece(new Piece("white","knight",[6,7], this.board));
-    this.board.addPiece(new Piece("white","bishop",[2,7], this.board));
-    this.board.addPiece(new Piece("white","bishop",[5,7], this.board));
+    // for(let i=0; i<8; i++){
+    //   this.board.addPiece(new Piece("white","pawn",[i,6], this.board));
+    //   this.board.addPiece(new Piece("black","pawn",[i,1], this.board));
+    // }
+    // this.board.addPiece(new Piece("white","rook",[0,7], this.board));
+    // this.board.addPiece(new Piece("white","rook",[7,7], this.board));
+    // this.board.addPiece(new Piece("white","knight",[1,7], this.board));
+    // this.board.addPiece(new Piece("white","knight",[6,7], this.board));
+    // this.board.addPiece(new Piece("white","bishop",[2,7], this.board));
+    // this.board.addPiece(new Piece("white","bishop",[5,7], this.board));
     this.board.addPiece(new Piece("white","queen",[3,7], this.board));
     this.board.addPiece(new Piece("white","king",[4,7], this.board));
 
-    this.board.addPiece(new Piece("black","rook",[0,0], this.board));
-    this.board.addPiece(new Piece("black","rook",[7,0], this.board));
-    this.board.addPiece(new Piece("black","knight",[1,0], this.board));
-    this.board.addPiece(new Piece("black","knight",[6,0], this.board));
-    this.board.addPiece(new Piece("black","bishop",[2,0], this.board));
-    this.board.addPiece(new Piece("black","bishop",[5,0], this.board));
+    // this.board.addPiece(new Piece("black","rook",[0,0], this.board));
+    // this.board.addPiece(new Piece("black","rook",[7,0], this.board));
+    // this.board.addPiece(new Piece("black","knight",[1,0], this.board));
+    // this.board.addPiece(new Piece("black","knight",[6,0], this.board));
+    // this.board.addPiece(new Piece("black","bishop",[2,0], this.board));
+    // this.board.addPiece(new Piece("black","bishop",[5,0], this.board));
     this.board.addPiece(new Piece("black","queen",[3,0], this.board));
     this.board.addPiece(new Piece("black","king",[4,0], this.board));
   }

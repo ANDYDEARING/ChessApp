@@ -162,7 +162,7 @@ export class ChessBoard {
 
             //remove the moving piece from its previous location on the page and in the array
             //keep the piece's old location in Piece.location for comparison (for now)
-            let coordString = piece.location[0].toString()+piece.location[1].toString();
+            //let coordString = piece.location[0].toString()+piece.location[1].toString();
             //document.getElementById(coordString).innerText = "";
             this.board2DArray[piece.location[0]][piece.location[1]] = null;
             this.board2DArray[coord[0]][coord[1]] = piece;
@@ -279,7 +279,7 @@ export class ChessBoard {
         for(let i=0;i<this.pieceList.length;i++){
             let testPiece = this.pieceList[i];
             if(testPiece.owner == aggressor && testPiece.location){
-                let threatenedSpaces = testPiece.getMoves();
+                let threatenedSpaces = testPiece.getMoves(true);
                 for(let j=0;j<threatenedSpaces.length;j++){
                     if(threatenedSpaces[j][0]==defenderKing.location[0]
                     && threatenedSpaces[j][1]==defenderKing.location[1]){
@@ -299,5 +299,8 @@ export class ChessBoard {
             }
         }
         return cloneBoard;
+    }
+    checkForCheckmate(aggressor:string):boolean{
+        return false;
     }
 }
