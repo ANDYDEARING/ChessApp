@@ -286,7 +286,7 @@ export class Piece{
             }
         }
         }
-        if(this.board.canCastle(this)){
+        if(this.board.canCastle(this) && !this.board.check){
         let castleRooks = this.board.canCastle(this);
         let clearRight:boolean = false;
         let clearLeft:boolean = false;
@@ -298,7 +298,8 @@ export class Piece{
                         clearLeft = false;
                     }
                 }
-                if(clearLeft){
+                if(clearLeft 
+                    && potentialMoveSpaces.includes([this.location[0]-1, this.location[1]])){
                     potentialMoveSpaces.push([this.location[0]-2, this.location[1]]);
                 }
             } else {
@@ -308,7 +309,8 @@ export class Piece{
                         clearRight = false;
                     }
                 }
-                if(clearRight){
+                if(clearRight 
+                    && potentialMoveSpaces.includes([this.location[0]+1, this.location[1]])){
                     potentialMoveSpaces.push([this.location[0]+2, this.location[1]]);
                 }
             }

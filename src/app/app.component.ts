@@ -75,7 +75,7 @@ export class AppComponent {
     this.board.addPiece(new Piece("white","queen",[3,7], this.board));
     this.board.addPiece(new Piece("white","king",[4,7], this.board));
 
-    // this.board.addPiece(new Piece("black","rook",[0,0], this.board));
+    this.board.addPiece(new Piece("black","rook",[0,0], this.board));
     // this.board.addPiece(new Piece("black","rook",[7,0], this.board));
     // this.board.addPiece(new Piece("black","knight",[1,0], this.board));
     // this.board.addPiece(new Piece("black","knight",[6,0], this.board));
