@@ -241,6 +241,7 @@ export class ChessBoard {
         }
     }
     display(){
+        //need to centralize all display
         for(let index=0;index<this.pieceList.length;index++){
             let piece = this.pieceList[index];
             if (piece.location){
