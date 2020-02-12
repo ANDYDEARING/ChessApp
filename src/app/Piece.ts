@@ -286,6 +286,7 @@ export class Piece{
             }
         }
         }
+        //cannot castle out of check
         if(this.board.canCastle(this) && !this.board.check){
         let castleRooks = this.board.canCastle(this);
         let clearRight:boolean = false;
@@ -298,8 +299,7 @@ export class Piece{
                         clearLeft = false;
                     }
                 }
-                if(clearLeft 
-                    && potentialMoveSpaces.includes([this.location[0]-1, this.location[1]])){
+                if(clearLeft){
                     potentialMoveSpaces.push([this.location[0]-2, this.location[1]]);
                 }
             } else {
@@ -309,8 +309,7 @@ export class Piece{
                         clearRight = false;
                     }
                 }
-                if(clearRight 
-                    && potentialMoveSpaces.includes([this.location[0]+1, this.location[1]])){
+                if(clearRight){
                     potentialMoveSpaces.push([this.location[0]+2, this.location[1]]);
                 }
             }
@@ -327,6 +326,33 @@ export class Piece{
             boardClone.moveClonePiece(clonePiece,moveCoords[i]);
             if(!boardClone.checkForCheck(this.board.getOpponent(this.owner))){
                 resultCoordList.push(moveCoords[i]);
+            }
+        }
+        //check for castling across a check
+        if(this.name=="KING"){
+            // debugger;
+            let indicesToRemove : number[] = [];
+            for(let i=0;i<resultCoordList.length;i++){
+                if(Math.abs(resultCoordList[i][0]-this.location[0])==2){
+                    let xCoordBetween:number = 
+                    this.location[0] - ((this.location[0]-resultCoordList[i][0])/2);
+                    let found:boolean = false;
+                    for(let k=0;k<resultCoordList.length;k++){
+                        if(resultCoordList[k][0]==xCoordBetween 
+                            && resultCoordList[k][1]==this.location[1]){
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found){
+                        indicesToRemove.push(i);
+                    }
+                }
+            }
+            let offset:number = 0;
+            for(let j=0;j<indicesToRemove.length;j++){
+                resultCoordList.splice(indicesToRemove[j]-offset,1);
+                offset--;
             }
         }
         return resultCoordList;
