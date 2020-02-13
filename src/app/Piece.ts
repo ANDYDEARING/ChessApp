@@ -10,8 +10,7 @@ export class Piece{
 
     private ownerNames: string[] = ["WHITE","BLACK"];
     private pieceNames: string[] = ["KING","QUEEN","BISHOP","KNIGHT","ROOK","PAWN"];
-    private whiteSymbols: string[] = ["♔","♕","♗","♘","♖","♙"];
-    private blackSymbols: string[] = ["♚","♛","♝","♞","♜","♟"];
+    private symbols: string[] = ["♚","♛","♝","♞","♜","♟"];
     
     constructor(owner:string, name:string, location:number[], board:ChessBoard){
 
@@ -38,14 +37,10 @@ export class Piece{
         this.symbol = this.getSymbol();
     }
     getSymbol(){
-        if(this.owner == "BLACK"){
-            return this.blackSymbols[this.pieceNames.indexOf(this.name)];
-        } else if (this.owner == "WHITE") {
-            return this.whiteSymbols[this.pieceNames.indexOf(this.name)];
-        }
+        return this.symbols[this.pieceNames.indexOf(this.name)];
     }
 
-    public getMoves(test:boolean=false):number[][]{
+    getMoves(test:boolean=false):number[][]{
         var potentialMoveSpaces : number[][] = [];
         switch(this.name){
             case "PAWN":
@@ -128,7 +123,7 @@ export class Piece{
 
         return potentialMoveSpaces;
     }
-    private getRookMoves(){
+    getRookMoves(){
     var potentialMoveSpaces : number[][] = [];
     let maxMove = 7;
 
@@ -190,7 +185,7 @@ export class Piece{
     }
     return potentialMoveSpaces;
     }
-    private getKnightMoves(){
+    getKnightMoves(){
     let potentialMoveSpaces : number[][] = [];
     for(let x=-2;x<=2;x++){
         for(let y=-2;y<=2;y++){
@@ -204,7 +199,7 @@ export class Piece{
     }
     return potentialMoveSpaces;
     }
-    private getBishopMoves(){
+    getBishopMoves(){
     var potentialMoveSpaces : number[][] = [];
     let maxMove = 7;
 
@@ -266,71 +261,70 @@ export class Piece{
     }
     return potentialMoveSpaces;
     }
-    private getQueenMoves(){
-    var potentialMoveSpaces : number[][] = this.getBishopMoves();
-    let rookMoves : number[][] = this.getRookMoves();
-    for(let i=0;i<rookMoves.length;i++){
-        potentialMoveSpaces.push(rookMoves[i]);
+    getQueenMoves(){
+        var potentialMoveSpaces : number[][] = this.getBishopMoves();
+        let rookMoves : number[][] = this.getRookMoves();
+        for(let i=0;i<rookMoves.length;i++){
+            potentialMoveSpaces.push(rookMoves[i]);
+        }
+        return potentialMoveSpaces;
     }
-    return potentialMoveSpaces;
-    }
-    private getKingMoves(){
+    getKingMoves(){
         let potentialMoveSpaces : number[][] = [];
         for(let x=-1;x<=1;x++){
-        for(let y=-1;y<=1;y++){
-            let coord = [this.location[0]+x, this.location[1]+y];
-            if( (this.board.validateCoord(coord)) && (x!=0 || y!=0) 
-            && (!this.board.getPieceAtLocation(coord)
-            || this.board.getPieceAtLocation(coord).owner != this.owner) ){
-                potentialMoveSpaces.push(coord);
+            for(let y=-1;y<=1;y++){
+                let coord = [this.location[0]+x, this.location[1]+y];
+                if( (this.board.validateCoord(coord)) && (x!=0 || y!=0) 
+                  && (!this.board.getPieceAtLocation(coord)
+                  || this.board.getPieceAtLocation(coord).owner != this.owner) ){
+                    potentialMoveSpaces.push(coord);
+                }
             }
-        }
         }
         //cannot castle out of check
         if(this.board.canCastle(this) && !this.board.check){
         let castleRooks = this.board.canCastle(this);
         let clearRight:boolean = false;
         let clearLeft:boolean = false;
-        for(let i=0;i<castleRooks.length;i++){
-            if(castleRooks[i].location[0]==0){
-                clearLeft = true;
-                for(let x=1;x<=3;x++){
-                    if(this.board.getPieceAtLocation([x, this.location[1]])){
-                        clearLeft = false;
+            for(let i=0;i<castleRooks.length;i++){
+                if(castleRooks[i].location[0]==0){
+                    clearLeft = true;
+                    for(let x=1;x<=3;x++){
+                        if(this.board.getPieceAtLocation([x, this.location[1]])){
+                            clearLeft = false;
+                        }
                     }
-                }
-                if(clearLeft){
-                    potentialMoveSpaces.push([this.location[0]-2, this.location[1]]);
-                }
-            } else {
-                clearRight = true;
-                for(let x=5;x<=6;x++){
-                    if(this.board.getPieceAtLocation([x, this.location[1]])){
-                        clearRight = false;
+                    if(clearLeft){
+                        potentialMoveSpaces.push([this.location[0]-2, this.location[1]]);
                     }
-                }
-                if(clearRight){
-                    potentialMoveSpaces.push([this.location[0]+2, this.location[1]]);
+                } else {
+                    clearRight = true;
+                    for(let x=5;x<=6;x++){
+                        if(this.board.getPieceAtLocation([x, this.location[1]])){
+                            clearRight = false;
+                        }
+                    }
+                    if(clearRight){
+                        potentialMoveSpaces.push([this.location[0]+2, this.location[1]]);
+                    }
                 }
             }
-        }
         }
         return potentialMoveSpaces;
     }
     removeIllegalMoves(moveCoords:number[][]):number[][]{
         let resultCoordList:number[][] = [];
         for(let i=0;i<moveCoords.length;i++){
-            //deep copy
+            //deep copy for move testing
             let boardClone = this.board.makeClone();
             let clonePiece = boardClone.getPieceAtLocation(this.location);
-            boardClone.moveClonePiece(clonePiece,moveCoords[i]);
+            boardClone.movePiece(clonePiece,moveCoords[i],true);
             if(!boardClone.checkForCheck(this.board.getOpponent(this.owner))){
                 resultCoordList.push(moveCoords[i]);
             }
         }
         //check for castling across a check
         if(this.name=="KING"){
-            // debugger;
             let indicesToRemove : number[] = [];
             for(let i=0;i<resultCoordList.length;i++){
                 if(Math.abs(resultCoordList[i][0]-this.location[0])==2){
