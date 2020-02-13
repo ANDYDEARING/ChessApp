@@ -11,6 +11,8 @@ export class Piece{
     private ownerNames: string[] = ["WHITE","BLACK"];
     private pieceNames: string[] = ["KING","QUEEN","BISHOP","KNIGHT","ROOK","PAWN"];
     private symbols: string[] = ["♚","♛","♝","♞","♜","♟"];
+    // alternate display for safari
+    // private symbols: string[] = ["♚","♛","♝","♞","♜","♙"];
     
     constructor(owner:string, name:string, location:number[], board:ChessBoard){
 
