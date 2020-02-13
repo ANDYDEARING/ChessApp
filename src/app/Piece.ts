@@ -343,10 +343,11 @@ export class Piece{
                     }
                 }
             }
+            // debugger;
             let offset:number = 0;
             for(let j=0;j<indicesToRemove.length;j++){
                 resultCoordList.splice(indicesToRemove[j]-offset,1);
-                offset--;
+                offset++;
             }
         }
         return resultCoordList;
