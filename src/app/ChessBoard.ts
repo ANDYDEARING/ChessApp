@@ -235,7 +235,7 @@ export class ChessBoard {
         for(let i=0;i<this.pieceList.length;i++){
             let testPiece = this.pieceList[i];
             if(testPiece.owner==this.getOpponent(aggressor) && testPiece.location){
-                availableMoves += testPiece.getMoves().length;
+                availableMoves += testPiece.getMoves(true).length;
             }
         }
         return availableMoves == 0;
@@ -246,7 +246,6 @@ export class ChessBoard {
     }
     endGame(message:string){
         let playAgain = window.confirm(message + "\nDo you want to play again?");
-        console.log(playAgain);
         if(playAgain){
             window.location.reload();
         }

@@ -325,7 +325,6 @@ export class Piece{
         }
         //check for castling across a check
         if(this.name=="KING"){
-            // debugger;
             let indicesToRemove : number[] = [];
             for(let i=0;i<resultCoordList.length;i++){
                 if(Math.abs(resultCoordList[i][0]-this.location[0])==2){
