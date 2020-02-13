@@ -230,18 +230,18 @@ export class ChessBoard {
         }
         return cloneBoard;
     }
-    checkForCheckmate(aggressor:string):boolean{
+    checkForCheckmate(aggressor:string,test=false):boolean{
         let availableMoves:number = 0;
         for(let i=0;i<this.pieceList.length;i++){
             let testPiece = this.pieceList[i];
             if(testPiece.owner==this.getOpponent(aggressor) && testPiece.location){
-                availableMoves += testPiece.getMoves(true).length;
+                availableMoves += testPiece.getMoves(test).length;
             }
         }
         return availableMoves == 0;
     }
     checkForStalemate(defender:string):boolean{
-        return this.checkForCheckmate(this.getOpponent(defender));
+        return this.checkForCheckmate(this.getOpponent(defender),true);
         //possibly add to this for other stalemates?
     }
     endGame(message:string){
