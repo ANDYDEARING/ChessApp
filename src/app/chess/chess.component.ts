@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Piece } from './Piece';
-import { ChessBoard } from './ChessBoard';
+import { Piece } from '../models/Piece';
+import { ChessBoard } from '../models/ChessBoard';
 
 @Component({
   selector: 'app-chess',
