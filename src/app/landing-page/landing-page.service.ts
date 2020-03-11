@@ -9,13 +9,14 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class LandingPageService {
-  private headers = new HttpHeaders({ 'Content-Type':'application/json'});
+  private headers = new HttpHeaders().set('Content-Type', 'application/json');
+
   constructor(private http: HttpClient) {
 
   }
-  login(user: User): Observable<String> {
+  login(user: User): Observable<string> {
     const url = environment.loginUrl;
-    return this.http.post<String>(url,user,{headers:this.headers})
+    return this.http.post(url,user,{headers:this.headers, responseType:'text'})
     .pipe(catchError(this.handleError))
   }
   private handleError(err: HttpErrorResponse){

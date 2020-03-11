@@ -31,13 +31,20 @@ export class LandingPageComponent implements OnInit {
   login() {
     this.user = this.loginForm.value as User;
     this.landingService.login(this.user).subscribe(
-      (response) => {
-        this.user.sessionId = response.toString();
-        sessionStorage.setItem("user", JSON.stringify(this.user));
-        console.log("login successful");
+      // (response) => {
+      //   console.log("made it to response");
+      //   this.user.sessionId = response.toString();
+      //   // sessionStorage.setItem("user", JSON.stringify(this.user));
+      //   console.log("login successful");
+      // },
+      // (error) => {
+      //   console.log("login failed");
+      // }
+      (r)=> {
+        console.log(r);
       },
-      (error) => {
-        console.log("login failed");
+      (x)=> {
+        console.log("error ", x);
       }
     )
   }
