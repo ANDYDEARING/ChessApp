@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from './home.service';
 import { Router } from '@angular/router';
+import { GameStub } from '../models/GameStub';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,16 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     if(sessionStorage.getItem("session-id")!=null){
-      console.log(this.homeService.getGames());
+      let stubs:GameStub[];
+      // stubs = this.homeService.getGames();
+      this.homeService.getGames().subscribe(
+        (response) => {
+          stubs = response;
+          console.log(stubs);
+        },
+        (error) => {
+          console.log("login failed");
+        })
     } else {
       this.router.navigate([""]);
     }

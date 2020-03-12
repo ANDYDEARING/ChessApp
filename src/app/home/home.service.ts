@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { environment } from '../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { User } from '../models/User';
+import { GameStub } from '../models/GameStub';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,14 @@ export class HomeService {
   constructor(private http: HttpClient) {
 
   }
-  getGames(): Observable<String> {
+  getGames(): Observable<GameStub[]> {
 
     let sessionId = sessionStorage.getItem('session-id');
     this.headers = this.headers.append('session-id',sessionId);
     console.log(sessionId);
     console.log(this.headers.keys());
     const url = environment.getGamesUrl;
-    return this.http.get<String>(url,{headers:this.headers})
+    return this.http.get<GameStub[]>(url,{headers:this.headers})
     .pipe(catchError(this.handleError))
   }
 
