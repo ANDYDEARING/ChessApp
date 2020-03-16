@@ -1,12 +1,23 @@
-<h3>User Login</h3>
-<form class="form" [formGroup]="loginForm" (ngSubmit)="login()">
-    <div class="form-group">
-        <label for="username">Username</label>
-        <input class="form-control" formControlName="username">
+<div class="background">
+    <h3 class="pt-5 pl-5 pr-5 white">InfyChess Login</h3>
+    <form class="form m-5" [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="form-group">
+            <label class="white" for="username">Username</label>
+            <input class="form-control input-area" formControlName="username">
+        </div>
+        <div class="form-group">
+            <label class="white" for="password">Password</label>
+            <input type="password" class="form-control input-area" formControlName="password">
+        </div>
+        <button class="btn btn-primary">Login</button>
+    </form>
+    <a class="m-5" href="">Register New Account</a>
+    <br>
+    <a class="m-5" href="">Forgot Username/Password</a>
+    <br>
+    <br>
+    <br>
+    <div class="fixed-bottom photographer-credit">
+        <a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@wimvanteinde?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Wim van &#x27;t Einde"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewBox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"></path></svg></span><span style="display:inline-block;padding:2px 3px">Wim van &#x27;t Einde</span></a>
     </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" formControlName="password">
-    </div>
-    <button class="btn btn-primary">Login</button>
-</form>
+</div>
