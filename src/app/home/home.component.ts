@@ -14,7 +14,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     if(sessionStorage.getItem("session-id")!=null){
-      // stubs = this.homeService.getGames();
       this.homeService.getGames().subscribe(
         (response) => {
           this.stubs = response;
