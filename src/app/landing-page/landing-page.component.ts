@@ -35,6 +35,7 @@ export class LandingPageComponent implements OnInit {
         console.log("made it to response");
         this.user.sessionId = response.toString();
         sessionStorage.setItem("session-id", this.user.sessionId.toString());
+        sessionStorage.setItem("username",this.user.username.toString());
         console.log("login successful");
         this.router.navigate(["/home"]);
       },

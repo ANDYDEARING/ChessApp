@@ -10,11 +10,17 @@
     background-position: center center;
 }
 .game-list-area{
-    max-width: 500px;
+    max-width: 900px;
     margin: auto;
-    background-color:gray;
-    width:75%;
+    background-color:lightgray;
 }
 .center{
     text-align: center;
+}
+.games-table{
+    width: 90%;
+    margin: auto;
+}
+.red{
+    color:red;
 }

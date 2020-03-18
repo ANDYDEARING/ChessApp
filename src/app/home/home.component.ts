@@ -9,11 +9,13 @@ import { GameStub } from '../models/GameStub';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  username:string;
   stubs:GameStub[];
   constructor(private homeService: HomeService, private router: Router) { }
 
   ngOnInit() {
     if(sessionStorage.getItem("session-id")!=null){
+      this.username = sessionStorage.getItem("username");
       this.homeService.getGames().subscribe(
         (response) => {
           this.stubs = response;
@@ -23,6 +25,7 @@ export class HomeComponent implements OnInit {
         },
         (error) => {
           console.log("login failed");
+          this.router.navigate([""]);
         })
     } else {
       this.router.navigate([""]);
