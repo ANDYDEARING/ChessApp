@@ -18,7 +18,7 @@
                             </span>
                         </td>
                     </ng-template>
-                    <td>{{game.lastMove}}</td>
+                    <td>{{getTimeDistance(game)}}</td>
                     <td *ngIf="game.isWhiteTurn && username==game.whiteUser; else opponent">
                         <span class="red">Your Turn</span>
                     </td>

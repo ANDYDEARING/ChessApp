@@ -4,7 +4,7 @@ export class GameStub{
     whiteUser: string;
     blackUser: string;
     gameID: number;
-    lastMove: string;
+    lastMove: Date;
     isWhiteTurn: boolean;
     piecesList: Piece[];
 }

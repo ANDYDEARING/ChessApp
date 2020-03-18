@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HomeService } from './home.service';
 import { Router } from '@angular/router';
 import { GameStub } from '../models/GameStub';
+import { min } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -19,9 +20,6 @@ export class HomeComponent implements OnInit {
       this.homeService.getGames().subscribe(
         (response) => {
           this.stubs = response;
-          for(let i=0;i<this.stubs.length;i++){
-            console.log(this.stubs[i]);
-          }
         },
         (error) => {
           console.log("login failed");
@@ -31,5 +29,29 @@ export class HomeComponent implements OnInit {
       this.router.navigate([""]);
     }
   }
-
+  getTimeDistance(game:GameStub):string{
+    let value:string;
+    let units:string;
+    let utcMoveDate = new Date(game.lastMove.toString());
+    let milliseconds = Date.now() - utcMoveDate.getTime();
+    milliseconds += (new Date().getTimezoneOffset()*60*1000);
+    let minutes = milliseconds/60000;
+    if(minutes < 1){
+      return "<1 minute ago"
+    }else if(minutes < 60){
+      value = Math.round(minutes).toString();
+      units = "minute";
+    } else if(minutes < 60*24){
+      value = (Math.round(minutes/60)).toString();
+      units = "hour";
+    } else {
+      value = (Math.round(minutes/(60*24))).toString();
+      units = "day";
+    }
+    if(parseInt(value) > 1){
+      units += "s"
+    }
+    
+    return value + " " + units + " ago";
+  }
 }
