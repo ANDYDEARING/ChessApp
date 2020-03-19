@@ -53,4 +53,7 @@ export class HomeComponent implements OnInit {
     
     return value + " " + units + " ago";
   }
+  goToGame(game:GameStub){
+    this.router.navigate(["game/" + game.gameID]);
+  }
 }

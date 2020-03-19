@@ -19,11 +19,11 @@
                     </ng-template>
                     <td>{{getTimeDistance(game)}}</td>
                     <td *ngIf="game.isWhiteTurn && username==game.whiteUser; else opponent">
-                        <button class="btn btn-primary">Your Turn</button>
+                        <button (click)="goToGame(game)" class="btn btn-primary">Your Turn</button>
                     </td>
                     <ng-template #opponent>
                         <td>
-                            <button class="btn btn-secondary">View</button>
+                            <button (click)="goToGame(game)" class="btn btn-secondary">View</button>
                         </td>
                     </ng-template>
                 </tr>
