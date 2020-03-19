@@ -19,15 +19,12 @@ export class HomeService {
 
     let sessionId = sessionStorage.getItem('session-id');
     this.headers = this.headers.append('session-id',sessionId);
-    console.log(sessionId);
-    console.log(this.headers.keys());
     const url = environment.getGamesUrl;
     return this.http.get<GameStub[]>(url,{headers:this.headers})
     .pipe(catchError(this.handleError))
   }
 
   private handleError(err: HttpErrorResponse){
-    console.log(err);
     let errMsg:string='';
     if(err.error instanceof Error){
       errMsg = err.error.message;

@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
           this.stubs = response;
         },
         (error) => {
-          console.log("login failed");
           this.router.navigate([""]);
         })
     } else {

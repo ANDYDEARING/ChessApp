@@ -20,7 +20,6 @@ export class LandingPageService {
     .pipe(catchError(this.handleError))
   }
   private handleError(err: HttpErrorResponse){
-    console.log(err);
     let errMsg:string='';
     if(err.error instanceof Error){
       errMsg = err.error.message;

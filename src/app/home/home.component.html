@@ -6,25 +6,24 @@
                 <tr>
                     <th>Opponent</th>
                     <th>Last Move</th>
-                    <th>Current Turn</th>
+                    <th></th>
                 </tr>
                 <tr *ngFor="let game of stubs">
                     <td *ngIf="username==game.whiteUser; else isBlack">
-                        {{game.blackUser}} (Black)
+                        {{game.blackUser}}
                     </td>
                     <ng-template #isBlack>
                         <td>
-                            <span>{{game.whiteUser}} (White)
-                            </span>
+                            {{game.whiteUser}}
                         </td>
                     </ng-template>
                     <td>{{getTimeDistance(game)}}</td>
                     <td *ngIf="game.isWhiteTurn && username==game.whiteUser; else opponent">
-                        <span class="red">Your Turn</span>
+                        <button class="btn btn-primary">Your Turn</button>
                     </td>
                     <ng-template #opponent>
                         <td>
-                            <span>Opponent's Turn</span>
+                            <button class="btn btn-secondary">View</button>
                         </td>
                     </ng-template>
                 </tr>
