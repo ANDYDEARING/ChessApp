@@ -39,7 +39,7 @@ export class GameComponent implements OnInit {
   adaptSymbolForSafari(){
     for(let i=0;i<this.board.pieceList.length;i++){
       if(this.board.pieceList[i].name == "PAWN"){
-        this.board.pieceList[i].symbol = "♙";
+        this.board.pieceList[i].symbol = "↥";
       }
     }
   }

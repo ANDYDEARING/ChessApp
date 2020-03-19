@@ -4,7 +4,7 @@
 .chessboard {
     width: 690px;
     height: 690px;
-    margin: 20px;
+    margin: auto;
     border: 25px solid #333;
 }
 .black {
@@ -55,7 +55,6 @@
                       1px 1px 0 #000,
                      1px -1px 0 #000,
                     -1px -1px 0 #000;
-    
 }
 div{
     font-family: 'Times New Roman', Times, serif;
