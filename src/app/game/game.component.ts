@@ -42,6 +42,10 @@ export class GameComponent implements OnInit {
         this.board.pieceList[i].symbol = "p";
       }
     }
+    let divList = document.getElementsByTagName("div");
+    for(let i=0;i<divList.length;i++){
+      divList[i].classList.add("safari");
+    }
   }
 
   onClick($event){
