@@ -19,33 +19,7 @@ export class GameComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(param => this.gameId = param['id']);
     this.initializePieces();
-    if(this.detectSafari()){
-      this.adaptSymbolForSafari();
-    }
     this.board.display();
-  }
-  detectSafari(){
-    var ua = navigator.userAgent.toLowerCase(); 
-    if (ua.indexOf('safari') != -1) { 
-      if (ua.indexOf('chrome') > -1) {
-        return false; // Chrome
-      } else {
-        return true; // Safari
-      } 
-    }
-    return false;
-  }
-
-  adaptSymbolForSafari(){
-    for(let i=0;i<this.board.pieceList.length;i++){
-      if(this.board.pieceList[i].name == "PAWN"){
-        this.board.pieceList[i].symbol = "p";
-      }
-    }
-    let divList = document.getElementsByTagName("div");
-    for(let i=0;i<divList.length;i++){
-      divList[i].classList.add("safari");
-    }
   }
 
   onClick($event){

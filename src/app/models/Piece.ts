@@ -10,7 +10,11 @@ export class Piece{
 
     private ownerNames: string[] = ["WHITE","BLACK"];
     private pieceNames: string[] = ["KING","QUEEN","BISHOP","KNIGHT","ROOK","PAWN"];
-    private symbols: string[] = ["♚","♛","♝","♞","♜","♟"];
+    // private symbols: string[] = ["♚","♛","♝","♞","♜","♟"];
+
+    //switched to custom font from unicode for wider support
+    private symbols: string[] = ["k","q","b","n","r","p"];
+    
     // alternate display for safari
     // private symbols: string[] = ["♚","♛","♝","♞","♜","♙"];
     

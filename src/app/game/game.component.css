@@ -62,9 +62,9 @@
                     -1px -1px 0 #000;
 }
 div{
-    /* font-family: Chess; */
-    font-family: 'Times New Roman', Times, serif;
-}
-.safari{
     font-family: Chess;
+    /* font-family: 'Times New Roman', Times, serif; */
 }
+/* .safari{
+    font-family: Chess;
+} */
