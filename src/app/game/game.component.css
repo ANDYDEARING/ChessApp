@@ -63,7 +63,7 @@
                     -1px -1px 0 #000;
 }
 
-@media only screen and (max-width: 720px){
+@media only screen and (max-width: 700px),(max-height: 700px){
     .chessboard{
         width: 22rem;
         height: 22rem;
