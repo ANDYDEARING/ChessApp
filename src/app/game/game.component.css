@@ -2,15 +2,25 @@
     font-family: Chess;
     src: url("../../assets/fonts/Chess.woff") format("woff");
 }
-
-.custom-color{
-    color: blue;
+.ui-container{
+    display:flex;
+    align-items: center;
+    flex-wrap: wrap;
 }
-
+.button-container{
+    display:flex;
+    margin:auto;
+    flex-wrap: wrap;
+    text-align: center;
+}
+.chessboard-container{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin:auto;
+}
 .chessboard {
     width: 44rem;
     height: 44rem;
-    /* max-width: 100%; */
     margin: auto;
     border: 2rem solid #333;
 }
@@ -77,5 +87,11 @@
     .border-red, .border-blue, .border-green{
         width: 2.5rem;
         height: 2.5rem;
+    }
+}
+
+@media only screen and (orientation: landscape){
+    .button-container{
+        flex-direction: column;
     }
 }
