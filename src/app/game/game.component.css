@@ -6,47 +6,47 @@
 .custom-color{
     color: blue;
 }
+
 .chessboard {
-    width: 690px;
-    height: 690px;
+    width: 44rem;
+    height: 44rem;
     margin: auto;
-    border: 25px solid #333;
+    border: 2rem solid #333;
 }
+
+.space{
+    font-family: Chess;
+    float: left;
+    width: 5rem;
+    height: 5rem;
+    font-size:3rem;
+    text-align:center;
+    display: table-cell;
+    vertical-align:middle;
+}
+
 .black {
-    float: left;
-    width: 80px;
-    height: 80px;
     background-color: #999;
-      font-size:50px;
-    text-align:center;
-    display: table-cell;
-    vertical-align:middle;
 }
+
 .white {
-    float: left;
-    width: 80px;
-    height: 80px;
     background-color: #fff;
-    font-size:50px;
-    text-align:center;
-    display: table-cell;
-    vertical-align:middle;
 }
+
+.border-red, .border-blue, .border-green{
+    width: 5rem;
+    height: 5rem;
+}
+
 .border-blue{
-    width: 80px;
-    height: 80px;
     border: solid blue 3px;
 }
 
 .border-red{
-    width: 80px;
-    height: 80px;
     border: solid red 3px;
 }
 
 .border-green{
-    width: 80px;
-    height: 80px;
     border: solid lime 3px;
 }
 
@@ -61,10 +61,3 @@
                      1px -1px 0 #000,
                     -1px -1px 0 #000;
 }
-div{
-    font-family: Chess;
-    /* font-family: 'Times New Roman', Times, serif; */
-}
-/* .safari{
-    font-family: Chess;
-} */

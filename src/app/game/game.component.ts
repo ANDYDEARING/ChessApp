@@ -25,7 +25,6 @@ export class GameComponent implements OnInit {
   onClick($event){
     let clickedSpace = $event.toElement;
     let clickedCoord = [parseInt(clickedSpace.id[0]),parseInt(clickedSpace.id[1])];
-    
     if(clickedSpace.classList.contains("border-green")){
       let coord = [parseInt(clickedSpace.id[0]),parseInt(clickedSpace.id[1])];
       this.board.movePiece(this.getPiece(this.selectedSpace),coord);
