@@ -10,6 +10,7 @@
 .chessboard {
     width: 44rem;
     height: 44rem;
+    /* max-width: 100%; */
     margin: auto;
     border: 2rem solid #333;
 }
@@ -60,4 +61,21 @@
                       1px 1px 0 #000,
                      1px -1px 0 #000,
                     -1px -1px 0 #000;
+}
+
+@media only screen and (max-width: 720px){
+    .chessboard{
+        width: 22rem;
+        height: 22rem;
+        border: 1rem solid #333;
+    }
+    .space{
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size:1.5rem;
+    }
+    .border-red, .border-blue, .border-green{
+        width: 2.5rem;
+        height: 2.5rem;
+    }
 }
