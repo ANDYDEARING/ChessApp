@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChessBoard } from '../models/ChessBoard';
 import { Piece } from '../models/Piece';
+import { GameService } from './game.service';
+import { GameStub } from '../models/GameStub';
 
 @Component({
   selector: 'app-game',
@@ -9,17 +11,40 @@ import { Piece } from '../models/Piece';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
+  
   gameId:string;
   board:ChessBoard = new ChessBoard();
   selectedSpace:Element;
   highlightedMoves:Element[];
   isWhiteTurn:boolean = true;
-  constructor(private route:ActivatedRoute) { }
+  gameStub:GameStub;
+
+  constructor(private gameService: GameService, private route:ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params.subscribe(param => this.gameId = param['id']);
+    this.gameService.getGame(this.gameId).subscribe(
+      (response) => {
+        this.gameStub = response;
+        console.log(this.gameStub.piecesList);
+      },
+      (error) => {
+        console.log(error);
+      });
     this.initializePieces();
     this.board.display();
+  }
+
+  onSubmit(){
+    console.log("Submit");
+  }
+
+  onUndo(){
+    console.log("Undo");
+  }
+
+  onConcede(){
+    console.log("Concede");
   }
 
   onClick($event){

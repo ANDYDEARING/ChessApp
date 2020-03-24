@@ -3,5 +3,6 @@ const APPLICATION_NAME : string = "/ChessAPI"
 
 export const environment = {
     loginUrl: 'https://' + HOSTNAME + APPLICATION_NAME + '/login',
-    getGamesUrl: 'https://' + HOSTNAME + APPLICATION_NAME + '/games'
+    getGamesUrl: 'https://' + HOSTNAME + APPLICATION_NAME + '/games',
+    getGameUrl: 'https://' + HOSTNAME + APPLICATION_NAME + '/getgame/'
 };
