@@ -39,13 +39,22 @@ export class GameComponent implements OnInit {
 
   initializePieces(){
     for(let i=0;i<this.gameStub.piecesList.length;i++){
-      this.board.addPiece(new Piece(
+      if(this.gameStub.piecesList[i][2] != null){
+        this.board.addPiece(new Piece(
+            this.gameStub.piecesList[i][0],
+            this.gameStub.piecesList[i][1],
+            [parseInt(this.gameStub.piecesList[i][2]),
+              parseInt(this.gameStub.piecesList[i][3])],
+            this.board
+          ));
+      } else {
+        this.board.addPiece(new Piece(
           this.gameStub.piecesList[i][0],
           this.gameStub.piecesList[i][1],
-          [parseInt(this.gameStub.piecesList[i][2]),
-            parseInt(this.gameStub.piecesList[i][3])],
+          null,
           this.board
         ));
+      }
     }
     this.isWhiteTurn = this.gameStub.isWhiteTurn;
   }
@@ -68,8 +77,13 @@ export class GameComponent implements OnInit {
       let stringablePiece = [];
       stringablePiece[0]=this.board.pieceList[i].owner;
       stringablePiece[1]=this.board.pieceList[i].name;
-      stringablePiece[2]=this.board.pieceList[i].location[0].toString();
-      stringablePiece[3]=this.board.pieceList[i].location[1].toString();
+      if(this.board.pieceList[i].location){
+        stringablePiece[2]=this.board.pieceList[i].location[0].toString();
+        stringablePiece[3]=this.board.pieceList[i].location[1].toString();
+      } else {
+        stringablePiece[2]=null;
+        stringablePiece[3]=null;
+      }
       stringableList[i]=stringablePiece;
     }
     this.gameStub.piecesList = stringableList;

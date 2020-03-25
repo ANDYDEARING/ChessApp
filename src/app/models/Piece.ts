@@ -34,7 +34,7 @@ export class Piece{
             throw new TypeError("Invalid Piece Name: " + name);
         }
 
-        if(board.validateCoord(location)){
+        if(location==null || board.validateCoord(location)){
             this.location = location;
         } else {
             throw new TypeError("Invalid Location: " + location);

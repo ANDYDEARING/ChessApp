@@ -20,13 +20,17 @@ export class ChessBoard {
         }
     }
     addPiece(piece:Piece){
-        let xCoord = piece.location[0];
-        let yCoord = piece.location[1];
-        if(!this.board2DArray[xCoord][yCoord]){
-            this.pieceList.push(piece);
-            this.board2DArray[xCoord][yCoord] = piece;
+        if(piece.location){
+            let xCoord = piece.location[0];
+            let yCoord = piece.location[1];
+            if(!this.board2DArray[xCoord][yCoord]){
+                this.pieceList.push(piece);
+                this.board2DArray[xCoord][yCoord] = piece;
+            } else {
+                throw new TypeError("Already a piece at: " + piece.location);
+            }
         } else {
-            throw new TypeError("Already a piece at: " + piece.location);
+            this.pieceList.push(piece);
         }
         
     }
