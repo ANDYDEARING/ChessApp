@@ -54,15 +54,9 @@ export class HomeComponent implements OnInit {
       this.homeService.getGames().subscribe(
         (response) => {
           this.stubs = response;
-          this.waitForUpdate();
         },
         (error) => {
           console.log(error);
         })
-  }
-  waitForUpdate(){
-    //uses up db connections
-    // var that = this;
-    // setTimeout(function(){that.checkForUpdate()},10000);
   }
 }
