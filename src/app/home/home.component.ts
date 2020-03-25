@@ -16,14 +16,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     if(sessionStorage.getItem("session-id")!=null){
-      this.username = sessionStorage.getItem("username");
-      this.homeService.getGames().subscribe(
-        (response) => {
-          this.stubs = response;
-        },
-        (error) => {
-          this.router.navigate([""]);
-        })
+      this.checkForUpdate();
     } else {
       this.router.navigate([""]);
     }
@@ -55,5 +48,21 @@ export class HomeComponent implements OnInit {
   }
   goToGame(game:GameStub){
     this.router.navigate(["game/" + game.gameID]);
+  }
+  checkForUpdate(){
+    this.username = sessionStorage.getItem("username");
+      this.homeService.getGames().subscribe(
+        (response) => {
+          this.stubs = response;
+          this.waitForUpdate();
+        },
+        (error) => {
+          console.log(error);
+        })
+  }
+  waitForUpdate(){
+    //uses up db connections
+    // var that = this;
+    // setTimeout(function(){that.checkForUpdate()},10000);
   }
 }
