@@ -23,6 +23,9 @@
 .center{
     text-align: center;
 }
+.refresh-button{
+    font-size: x-large;
+}
 .games-table{
     width: 90%;
     margin: auto;
