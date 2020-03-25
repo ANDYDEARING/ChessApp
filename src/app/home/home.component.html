@@ -18,7 +18,8 @@
                         </td>
                     </ng-template>
                     <td>{{getTimeDistance(game)}}</td>
-                    <td *ngIf="game.isWhiteTurn && username==game.whiteUser; else opponent">
+                    <td *ngIf="(game.isWhiteTurn && username==game.whiteUser) ||
+                    (!game.isWhiteTurn && username==game.blackUser); else opponent">
                         <button (click)="goToGame(game)" class="btn btn-primary">Your Turn</button>
                     </td>
                     <ng-template #opponent>

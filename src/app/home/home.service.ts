@@ -18,7 +18,7 @@ export class HomeService {
   getGames(): Observable<GameStub[]> {
 
     let sessionId = sessionStorage.getItem('session-id');
-    this.headers = this.headers.append('session-id',sessionId);
+    this.headers = this.headers.set('session-id',sessionId);
     const url = environment.getGamesUrl;
     return this.http.get<GameStub[]>(url,{headers:this.headers})
     .pipe(catchError(this.handleError))

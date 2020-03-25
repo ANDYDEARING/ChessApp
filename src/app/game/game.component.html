@@ -77,8 +77,8 @@
             </div>
         </div>
         <div class="button-container">
-            <button (click)="onSubmit()" class="btn btn-success m-3">Submit</button>
-            <button (click)="onUndo()" class="btn btn-warning m-3">Undo</button>
+            <button *ngIf="isPlayerTurnOnLoad" (click)="onSubmit()" class="btn btn-success m-3">Submit</button>
+            <button *ngIf="isPlayerTurnOnLoad" (click)="onUndo()" class="btn btn-warning m-3">Undo</button>
             <button (click)="onConcede()" class="btn btn-danger m-3">Concede</button>
         </div>
     </div>

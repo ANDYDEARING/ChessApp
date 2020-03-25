@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ROUTER_INITIALIZER, Router } from '@angular/router';
 import { ChessBoard } from '../models/ChessBoard';
 import { Piece } from '../models/Piece';
 import { GameService } from './game.service';
@@ -18,8 +18,10 @@ export class GameComponent implements OnInit {
   highlightedMoves:Element[];
   isWhiteTurn:boolean = true;
   gameStub:GameStub;
+  isPlayerTurn:boolean;
+  isPlayerTurnOnLoad:boolean;
 
-  constructor(private gameService: GameService, private route:ActivatedRoute) { }
+  constructor(private gameService: GameService, private route:ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe(param => this.gameId = param['id']);
@@ -27,6 +29,7 @@ export class GameComponent implements OnInit {
       (response) => {
         this.gameStub = response;
         this.initializePieces();
+        this.initializeUI();
         this.board.display();
       },
       (error) => {
@@ -34,12 +37,58 @@ export class GameComponent implements OnInit {
       });
   }
 
+  initializePieces(){
+    for(let i=0;i<this.gameStub.piecesList.length;i++){
+      this.board.addPiece(new Piece(
+          this.gameStub.piecesList[i][0],
+          this.gameStub.piecesList[i][1],
+          [parseInt(this.gameStub.piecesList[i][2]),
+            parseInt(this.gameStub.piecesList[i][3])],
+          this.board
+        ));
+    }
+    this.isWhiteTurn = this.gameStub.isWhiteTurn;
+  }
+
+  initializeUI(){
+    let sessionUser:string = sessionStorage.getItem("username");
+    if(this.gameStub.whiteUser==sessionUser && this.gameStub.isWhiteTurn){
+      this.isPlayerTurn = true;
+    } else if(this.gameStub.blackUser==sessionUser && !this.gameStub.isWhiteTurn){
+      this.isPlayerTurn = true;
+    } else {
+      this.isPlayerTurn = false;
+    }
+    this.isPlayerTurnOnLoad = this.isPlayerTurn;
+  }
+
   onSubmit(){
-    console.log("Submit");
+    let stringableList = [];
+    for(let i=0;i<this.board.pieceList.length;i++){
+      let stringablePiece = [];
+      stringablePiece[0]=this.board.pieceList[i].owner;
+      stringablePiece[1]=this.board.pieceList[i].name;
+      stringablePiece[2]=this.board.pieceList[i].location[0].toString();
+      stringablePiece[3]=this.board.pieceList[i].location[1].toString();
+      stringableList[i]=stringablePiece;
+    }
+    this.gameStub.piecesList = stringableList;
+    this.gameService.submitMove(this.gameStub).subscribe(
+      (response) => {
+        if(response){
+          this.router.navigate(['home']);
+        } else {
+          this.onUndo();
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   onUndo(){
-    console.log("Undo");
+    location.reload();
   }
 
   onConcede(){
@@ -54,6 +103,7 @@ export class GameComponent implements OnInit {
       this.board.movePiece(this.getPiece(this.selectedSpace),coord);
       this.board.display();
       this.isWhiteTurn = !this.isWhiteTurn;
+      this.isPlayerTurn = false;
       this.clearGreenBorder();
       this.selectedSpace.classList.remove("border-blue");
     } else if(this.board.getPieceAtLocation(clickedCoord) 
@@ -74,7 +124,7 @@ export class GameComponent implements OnInit {
 
   }
   isPiecesTurn(piece:Piece){
-    return this.isWhiteTurn == (piece.owner == "WHITE");
+    return this.isPlayerTurn && this.isWhiteTurn == (piece.owner == "WHITE");
   }
   convertToElements(coordList:number[][]):Element[]{
     let results : Element[] = [];
@@ -87,18 +137,6 @@ export class GameComponent implements OnInit {
     return results;
   }
 
-  initializePieces(){
-    console.log(this.gameStub.piecesList);
-    for(let i=0;i<this.gameStub.piecesList.length;i++){
-      this.board.addPiece(new Piece(
-          this.gameStub.piecesList[i][0],
-          this.gameStub.piecesList[i][1],
-          [parseInt(this.gameStub.piecesList[i][2]),
-            parseInt(this.gameStub.piecesList[i][3])],
-          this.board
-        ));
-    }
-  }
 
   getPiece(space:Element):Piece{
     let xCoord = parseInt(space.id[0]);

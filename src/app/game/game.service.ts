@@ -14,12 +14,20 @@ export class GameService {
   constructor(private http: HttpClient) {
 
   }
-  getGame(id:string): Observable<GameStub> {
 
+  getGame(id:string): Observable<GameStub> {
     let sessionId = sessionStorage.getItem('session-id');
-    this.headers = this.headers.append('session-id',sessionId);
+    this.headers = this.headers.set('session-id',sessionId);
     const url = environment.getGameUrl + id;
     return this.http.get<GameStub>(url,{headers:this.headers})
+    .pipe(catchError(this.handleError))
+  }
+
+  submitMove(gameStub:GameStub): Observable<boolean>{
+    const url = environment.submitUrl;
+    let sessionId = sessionStorage.getItem('session-id');
+    this.headers = this.headers.set('session-id',sessionId);
+    return this.http.post<boolean>(url,gameStub,{headers:this.headers})
     .pipe(catchError(this.handleError))
   }
 
