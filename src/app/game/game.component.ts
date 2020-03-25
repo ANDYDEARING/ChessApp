@@ -57,6 +57,16 @@ export class GameComponent implements OnInit {
       }
     }
     this.isWhiteTurn = this.gameStub.isWhiteTurn;
+    let currentUser:string;
+    if(this.isWhiteTurn){
+      currentUser = "WHITE";
+    } else {
+      currentUser = "BLACK";
+    }
+    if(this.board.checkForCheck(this.board.getOpponent(currentUser))){
+      this.board.checkedKingSpace = this.board.getElementForPiece(
+        this.board.findKing(currentUser));
+    }
   }
 
   initializeUI(){
