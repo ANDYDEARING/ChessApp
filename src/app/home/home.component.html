@@ -18,13 +18,23 @@
                         </td>
                     </ng-template>
                     <td>{{getTimeDistance(game)}}</td>
-                    <td *ngIf="(game.isWhiteTurn && username==game.whiteUser) ||
-                    (!game.isWhiteTurn && username==game.blackUser); else opponent">
-                        <button (click)="goToGame(game)" class="btn btn-primary">Your Turn</button>
-                    </td>
-                    <ng-template #opponent>
+                    <ng-container *ngIf="!game.winner; else gameover">
                         <td>
-                            <button (click)="goToGame(game)" class="btn btn-secondary">View</button>
+                            <button *ngIf="(game.isWhiteTurn && username==game.whiteUser) ||
+                            (!game.isWhiteTurn && username==game.blackUser); else opponent" 
+                            class="btn btn-primary" (click)="goToGame(game)">Your Move</button>
+                            <ng-template #opponent>
+                                <button class="btn btn-secondary" (click)="goToGame(game)">View</button>
+                            </ng-template>
+                        </td>
+                    </ng-container>
+                    <ng-template #gameover>
+                        <td>
+                            <button *ngIf="username==game.winner; else lost" 
+                            class="btn btn-success" (click)="goToGame(game)">You Won!</button>
+                            <ng-template #lost>
+                                <button class="btn btn-danger" (click)="goToGame(game)">You Lost!</button>
+                            </ng-template>
                         </td>
                     </ng-template>
                 </tr>

@@ -7,4 +7,5 @@ export class GameStub{
     lastMove: Date;
     isWhiteTurn: boolean;
     piecesList: Piece[];
+    winner: string;
 }

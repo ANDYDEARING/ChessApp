@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
     let units:string;
     let utcMoveDate = new Date(game.lastMove.toString());
     let milliseconds = Date.now() - utcMoveDate.getTime();
-    milliseconds += (new Date().getTimezoneOffset()*60*1000);
+    // milliseconds += (new Date().getTimezoneOffset()*60*1000);
     let minutes = milliseconds/60000;
     if(minutes < 1){
       return "<1 minute ago"
@@ -54,6 +54,7 @@ export class HomeComponent implements OnInit {
       this.homeService.getGames().subscribe(
         (response) => {
           this.stubs = response;
+          console.log("0 index winner", this.stubs[0].winner);
         },
         (error) => {
           console.log(error);

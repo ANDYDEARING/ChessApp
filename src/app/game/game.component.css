@@ -25,6 +25,12 @@
     flex-wrap: wrap;
     /* text-align: center; */
 }
+.message-container{
+    margin:auto;
+    background-color: lightgray;
+    padding: 1rem;
+    border-radius: 10px;
+}
 .chessboard-container{
     padding-top: 1rem;
     padding-bottom: 1rem;

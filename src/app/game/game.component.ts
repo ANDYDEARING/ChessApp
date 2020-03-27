@@ -63,7 +63,16 @@ export class GameComponent implements OnInit {
     } else {
       currentUser = "BLACK";
     }
-    if(this.board.checkForCheck(this.board.getOpponent(currentUser))){
+    if(this.gameStub.winner!=null){
+      let loser:string;
+      if(this.gameStub.whiteUser == this.gameStub.winner){
+        loser = "BLACK";
+      } else {
+        loser = "WHITE";
+      }
+      this.board.checkedKingSpace = this.board.getElementForPiece(
+        this.board.findKing(loser));
+    } else if(this.board.checkForCheck(this.board.getOpponent(currentUser))){
       this.board.checkedKingSpace = this.board.getElementForPiece(
         this.board.findKing(currentUser));
     }
@@ -116,7 +125,27 @@ export class GameComponent implements OnInit {
   }
 
   onConcede(){
-    console.log("Concede");
+    let opponent:string;
+    if(sessionStorage.getItem("username")==this.gameStub.whiteUser){
+      opponent = this.gameStub.blackUser;
+    } else {
+      opponent = this.gameStub.whiteUser;
+    }
+    console.log("opponent", opponent);
+    this.gameStub.winner = opponent;
+    console.log("gameStub", this.gameStub);
+    this.gameService.submitMove(this.gameStub).subscribe(
+      (response) => {
+        if(response){
+          this.router.navigate(['home']);
+        } else {
+          this.onUndo();
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   onClick($event){
