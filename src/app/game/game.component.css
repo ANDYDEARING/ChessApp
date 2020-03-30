@@ -42,7 +42,11 @@
     margin: auto;
     border: 2rem solid #333;
 }
-
+.font-credit{
+    background-color: black;
+    padding-left: 10px;
+    font-size: small;
+}
 .space{
     font-family: Chess;
     float: left;

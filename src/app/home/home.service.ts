@@ -29,7 +29,6 @@ export class HomeService {
   }
 
   challengeOpponent(opponent:string): Observable<boolean>{
-    console.log("Made it to challenge opponent in homeService");
     let sessionId = sessionStorage.getItem('session-id');
     httpOptions.headers = httpOptions.headers.set('session-id',sessionId);
     const url = environment.challengeOpponentUrl + opponent;

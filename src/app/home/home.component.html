@@ -10,6 +10,7 @@
                 <input class="challenge-field" placeholder="Enter new opponent" #opponent>
                 <button class="btn btn-primary m-2" (click)="challengeOpponent(opponent.value)">Challenge</button>
             </div>
+            <p *ngIf="message && showChallenge" class="red center">{{message}}</p>
             <table class="games-table mt-4">
                 <tr>
                     <th>Opponent</th>

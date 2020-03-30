@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   username:string;
   stubs:GameStub[];
   showChallenge:boolean;
+  message:string;
   constructor(private homeService: HomeService, private router: Router) { }
 
   ngOnInit() {
@@ -68,13 +69,16 @@ export class HomeComponent implements OnInit {
   challengeOpponent(opponent:string){
     this.homeService.challengeOpponent(opponent).subscribe(
       (response) => {
-        this.showChallenge = false;
-        location.reload();
+        if(response){
+          this.message = null;
+          this.showChallenge = false;
+          location.reload();
+        } else {
+          this.message = "Invalid User";
+        }
       },
       (error) => {
         console.log(error);
       })
-    // console.log("made it to challengeOpponent");
-    // this.router.navigate(["challenge/"+opponent]);
   }
 }
