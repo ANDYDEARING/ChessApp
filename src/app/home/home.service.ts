@@ -3,24 +3,37 @@ import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { environment } from '../environments/environment';
 import { catchError } from 'rxjs/operators';
-import { User } from '../models/User';
 import { GameStub } from '../models/GameStub';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'session-id': 'test-session-id'
+  })
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeService {
-  private headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) {
 
   }
   getGames(): Observable<GameStub[]> {
-
     let sessionId = sessionStorage.getItem('session-id');
-    this.headers = this.headers.set('session-id',sessionId);
+    httpOptions.headers = httpOptions.headers.set('session-id',sessionId);
     const url = environment.getGamesUrl;
-    return this.http.get<GameStub[]>(url,{headers:this.headers})
+    return this.http.get<GameStub[]>(url,{headers:httpOptions.headers})
+    .pipe(catchError(this.handleError))
+  }
+
+  challengeOpponent(opponent:string): Observable<boolean>{
+    console.log("Made it to challenge opponent in homeService");
+    let sessionId = sessionStorage.getItem('session-id');
+    httpOptions.headers = httpOptions.headers.set('session-id',sessionId);
+    const url = environment.challengeOpponentUrl + opponent;
+    return this.http.post<boolean>(url,null,{headers:httpOptions.headers})
     .pipe(catchError(this.handleError))
   }
 

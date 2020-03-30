@@ -17,7 +17,7 @@ import { HashLocationStrategy, LocationStrategy} from '@angular/common';
     ChessComponent,
     LandingPageComponent,
     HomeComponent,
-    GameComponent
+    GameComponent,
   ],
   imports: [
     BrowserModule,

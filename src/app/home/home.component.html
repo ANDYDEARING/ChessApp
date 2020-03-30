@@ -1,7 +1,15 @@
 <div class="background">
     <div class="game-list-container pt-5">
         <div class="game-list-area">
-            <h1 class="center">My Games <button (click)="checkForUpdate()" class="center btn btn-secondary refresh-button">⟳</button></h1>
+            <h1 class="center">My Games</h1>
+            <h1 class="center">
+                <button (click)="checkForUpdate()" class="center btn btn-secondary refresh-button">⟳</button>
+                <button (click)="addNewGame()" class="center btn btn-secondary add-button">+</button>
+            </h1>
+            <div *ngIf="showChallenge" class=challenge-div>
+                <input class="challenge-field" placeholder="Enter new opponent" #opponent>
+                <button class="btn btn-primary m-2" (click)="challengeOpponent(opponent.value)">Challenge</button>
+            </div>
             <table class="games-table mt-4">
                 <tr>
                     <th>Opponent</th>

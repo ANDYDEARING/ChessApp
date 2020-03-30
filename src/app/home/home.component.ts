@@ -12,9 +12,11 @@ import { min } from 'rxjs/operators';
 export class HomeComponent implements OnInit {
   username:string;
   stubs:GameStub[];
+  showChallenge:boolean;
   constructor(private homeService: HomeService, private router: Router) { }
 
   ngOnInit() {
+    this.showChallenge = false;
     if(sessionStorage.getItem("session-id")!=null){
       this.checkForUpdate();
     } else {
@@ -56,7 +58,23 @@ export class HomeComponent implements OnInit {
           this.stubs = response;
         },
         (error) => {
+          this.router.navigate([""]);
           console.log(error);
         })
+  }
+  addNewGame(){
+    this.showChallenge = !this.showChallenge;
+  }
+  challengeOpponent(opponent:string){
+    this.homeService.challengeOpponent(opponent).subscribe(
+      (response) => {
+        this.showChallenge = false;
+        location.reload();
+      },
+      (error) => {
+        console.log(error);
+      })
+    // console.log("made it to challengeOpponent");
+    // this.router.navigate(["challenge/"+opponent]);
   }
 }

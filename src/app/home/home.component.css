@@ -23,8 +23,22 @@
 .center{
     text-align: center;
 }
-.refresh-button{
+.refresh-button,.add-button{
     font-size: x-large;
+}
+.add-button{
+    margin-left: 1rem;
+    width: 3rem;
+}
+.challenge-div{
+    margin:auto;
+    width:50%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.challenge-field{
+    height:2.4rem;
 }
 .games-table{
     width: 90%;
