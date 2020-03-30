@@ -183,7 +183,7 @@ export class ChessBoard {
         }
     }
     canCastle(king:Piece):Piece[]{
-        if(king.name == "KING" && !this.ineligibleToCastle.includes(king)){
+        if(king.name == "KING" && !this.check && !this.ineligibleToCastle.includes(king)){
             let resultList = [];
             for(let i=0;i<this.pieceList.length;i++){
                 let testPiece = this.pieceList[i];

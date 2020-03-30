@@ -76,6 +76,7 @@ export class GameComponent implements OnInit {
     } else if(this.board.checkForCheck(this.board.getOpponent(currentUser))){
       this.board.checkedKingSpace = this.board.getElementForPiece(
         this.board.findKing(currentUser));
+      this.board.check = true;
     }
   }
 
