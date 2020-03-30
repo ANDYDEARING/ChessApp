@@ -7,8 +7,12 @@ export class ChessBoard {
     ineligibleToCastle: Piece[];
     check:boolean;
     checkedKingSpace:Element;
+    checkmatePending:boolean;
+    winner:string;
+
     constructor(){
         this.check = false;
+        this.checkmatePending = false;
         this.pieceList = [];
         this.board2DArray = [];
         this.ineligibleToCastle = [];
@@ -132,15 +136,14 @@ export class ChessBoard {
             //only check for endstate on test=false
             if(this.check && !test){
                 if(this.checkForCheckmate(piece.owner)){
-                    let winner = piece.owner.toLowerCase();
-                    winner = winner.charAt(0).toUpperCase() + winner.substring(1);
-                    this.endGame("Checkmate. " + winner + " is the winner.");
+                    let winner = piece.owner;
+                    this.endGame(winner);
                 }
                 this.checkedKingSpace = this.getElementForPiece(this.findKing(this.getOpponent(piece.owner)));
                 this.checkedKingSpace.classList.add("red");
             } else if(!test){
                 if(this.checkForStalemate(this.getOpponent(piece.owner))){
-                    this.endGame("Stalemate. The game is a draw.");
+                    this.endGame(null);
                 }
             }
         } else {
@@ -248,10 +251,12 @@ export class ChessBoard {
         return this.checkForCheckmate(this.getOpponent(defender),true);
         //possibly add to this for other stalemates?
     }
-    endGame(message:string){
-        let playAgain = window.confirm(message + "\nDo you want to play again?");
-        if(playAgain){
-            window.location.reload();
+    endGame(winner:string){
+        this.checkmatePending = true;
+        if(winner==null){
+            this.winner == "STALEMATE";
+        } else {
+            this.winner = winner;
         }
     }
 }

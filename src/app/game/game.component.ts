@@ -20,6 +20,7 @@ export class GameComponent implements OnInit {
   gameStub:GameStub;
   isPlayerTurn:boolean;
   isPlayerTurnOnLoad:boolean;
+  canSubmitCheckmate:boolean;
 
   constructor(private gameService: GameService, private route:ActivatedRoute, private router: Router) { }
 
@@ -106,6 +107,15 @@ export class GameComponent implements OnInit {
       stringableList[i]=stringablePiece;
     }
     this.gameStub.piecesList = stringableList;
+    if(this.board.winner){
+      if(this.board.winner == "WHITE"){
+        this.gameStub.winner = this.gameStub.whiteUser;
+      } else if (this.board.winner == "BLACK"){
+        this.gameStub.winner = this.gameStub.blackUser;
+      } else if (this.board.winner == "DRAW"){
+        this.gameStub.winner = "STALEMATE";
+      }
+    }
     this.gameService.submitMove(this.gameStub).subscribe(
       (response) => {
         if(response){
@@ -131,9 +141,7 @@ export class GameComponent implements OnInit {
     } else {
       opponent = this.gameStub.whiteUser;
     }
-    console.log("opponent", opponent);
     this.gameStub.winner = opponent;
-    console.log("gameStub", this.gameStub);
     this.gameService.submitMove(this.gameStub).subscribe(
       (response) => {
         if(response){
@@ -174,7 +182,7 @@ export class GameComponent implements OnInit {
         this.selectedSpace.classList.remove("border-blue");
       }
     }
-
+    this.canSubmitCheckmate = this.board.checkmatePending;
   }
   isPiecesTurn(piece:Piece){
     return this.isPlayerTurn && this.isWhiteTurn == (piece.owner == "WHITE");

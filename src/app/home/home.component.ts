@@ -54,7 +54,6 @@ export class HomeComponent implements OnInit {
       this.homeService.getGames().subscribe(
         (response) => {
           this.stubs = response;
-          console.log("0 index winner", this.stubs[0].winner);
         },
         (error) => {
           console.log(error);
