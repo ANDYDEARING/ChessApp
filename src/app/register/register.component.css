@@ -1,0 +1,28 @@
+.background{
+    min-height: 100vh;
+    width:100%;
+    /* background-image: url("../../assets/images/ChessPicEdited.png"); */
+    background-image: url("https://i.imgur.com/qq5nJwL.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: right bottom;
+    background-attachment: fixed;
+}
+
+.white{
+    color: whitesmoke;
+}
+
+.gray{
+    color: gray;
+}
+
+.red{
+    color:red;
+}
+
+.input-area{
+    max-width: 300px;
+}

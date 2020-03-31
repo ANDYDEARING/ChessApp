@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { GameComponent } from './game/game.component';
 import { HashLocationStrategy, LocationStrategy} from '@angular/common';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { HashLocationStrategy, LocationStrategy} from '@angular/common';
     LandingPageComponent,
     HomeComponent,
     GameComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

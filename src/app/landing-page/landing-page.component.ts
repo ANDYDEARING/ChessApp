@@ -42,4 +42,8 @@ export class LandingPageComponent implements OnInit {
       }
     )
   }
+
+  registerNewUser(){
+    this.router.navigate(["/register"]);
+  }
 }
