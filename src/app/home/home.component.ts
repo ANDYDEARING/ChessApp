@@ -81,4 +81,8 @@ export class HomeComponent implements OnInit {
         console.log(error);
       })
   }
+  logout(){
+    sessionStorage.clear();
+    this.router.navigate([""]);
+  }
 }

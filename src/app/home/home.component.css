@@ -9,6 +9,12 @@
     background-size: cover;
     background-position: center center;
 }
+.logout-area{
+    display: flex;
+    flex-direction: column;
+    text-align: end;
+    align-items: flex-end;
+}
 .game-list-area{
     max-width: 900px;
     margin: auto;
@@ -49,7 +55,9 @@
 .red{
     color:red;
 }
-
+.white{
+    color: whitesmoke;
+}
 td,th{
     text-align: center;
 }
