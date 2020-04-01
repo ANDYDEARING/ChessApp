@@ -19,6 +19,10 @@
     color: gray;
 }
 
+.red{
+    color:red;
+}
+
 .input-area{
     max-width: 300px;
 }

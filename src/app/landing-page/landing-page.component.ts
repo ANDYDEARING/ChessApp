@@ -12,12 +12,16 @@ import { User } from '../models/User';
 export class LandingPageComponent implements OnInit {
   user: User;
   loginForm: FormGroup;
+  message:string;
+  errorMessage:string;
 
   constructor(private fb: FormBuilder, private landingService: LandingPageService,
     private router: Router) { }
 
   ngOnInit() {
     this.user = new User;
+    this.message = null;
+    this.errorMessage = null;
     this.createForm();
   }
 
@@ -30,6 +34,8 @@ export class LandingPageComponent implements OnInit {
 
   login() {
     this.user = this.loginForm.value as User;
+    this.errorMessage = null;
+    this.message = "Logging In..."
     this.landingService.login(this.user).subscribe(
       (response) => {
         this.user.sessionId = response.toString();
@@ -38,7 +44,8 @@ export class LandingPageComponent implements OnInit {
         this.router.navigate(["/home"]);
       },
       (error) => {
-        console.log("login failed");
+        this.message = null;
+        this.errorMessage = "Invalid Credentials";
       }
     )
   }
